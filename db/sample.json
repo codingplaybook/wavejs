@@ -1,0 +1,55 @@
+[  {
+    "username": "jimbojones",
+    "password":"jim123456",
+    "firstname":"jim",
+    "lastname":"jones",
+    "email":"jimbojones@testmail.com",
+    "isVisible":"true",
+    "description":"Lorem ipsum I have a description that doesn't mean anything lol"
+  },
+  {
+    "username": "loreyharvey",
+    "password":"jim123456",
+    "firstname":"lorey",
+    "lastname":"harvey",
+    "email":"loreyharvey@testmail.com",
+    "isVisible":"true",
+    "description":"Lorem ipsum I have a description that doesn't mean anything lol"
+  },
+  {
+    "username": "arnoldpalmer",
+    "password":"jim123456",
+    "firstname":"arnold",
+    "lastname":"palmer",
+    "email":"arnoldpalmer@testmail.com",
+    "isVisible":"true",
+    "description":"Lorem ipsum I have a description that doesn't mean anything lol"
+  },
+  {
+    "username": "kellyjohnson",
+    "password":"jim123456",
+    "firstname":"kelly",
+    "lastname":"johnson",
+    "email":"kellyjohnson@testmail.com",
+    "isVisible":"true",
+    "description":"Lorem ipsum I have a description that doesn't mean anything lol"
+  },
+  {
+    "username": "jenniferlopez",
+    "password":"jim123456",
+    "firstname":"jennifer",
+    "lastname":"lopez",
+    "email":"jenniferlopez@testmail.com",
+    "isVisible":"true",
+    "description":"Lorem ipsum I have a description that doesn't mean anything lol"
+  },
+  {
+    "username": "richard",
+    "password":"jim123456",
+    "firstname":"richard",
+    "lastname":"sanchez",
+    "email":"richardsanchez@testmail.com",
+    "isVisible":"true",
+    "description":"Lorem ipsum I have a description that doesn't mean anything lol"
+  }
+]
