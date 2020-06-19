@@ -19,6 +19,7 @@ if (process.env.NODE_ENV === 'production') {
 //const dbCheck = require('./db/dbCheck');
 
 app.use(cors());
+app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 //dbCheck.checkDate();
 
