@@ -1,0 +1,424 @@
+/* Table of Contents 
+* Root
+* Menu
+* Landing
+* Feed
+* Profile
+* Login
+* Single Post
+*
+*/
+
+
+/* Provide sufficient contrast against white background */
+html, body, #root, #App {
+  height: 100%
+}
+
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #E01A76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.hamburger div {
+  width: 7px;
+  height: 1px;
+  background-color: black;
+  margin: 2px 0;
+}
+
+/* Menu */
+.nav-home {
+  max-height: 11px;
+}
+
+.nav-notification {
+  max-height: 25px;
+}
+
+/* Landing Page */
+.landingHeading {
+  text-align: center;
+}
+
+.landingSix img {
+  width: 80%;
+}
+
+.landingPreFooter img {
+  width: 100%;
+}
+
+.landingFooter {
+  text-align: center;
+}
+
+.landingFooter .footerName {
+  font-family: 'Lobster', cursive;
+}
+
+.landingFooter img {
+  max-Width:20px;
+  margin-left: .5rem;
+  margin-right:.5rem;
+}
+
+.landing-theSwitchList li{
+  cursor: pointer;
+  font-weight: bold;
+  padding-top: 1rem;
+  padding-bottom:1rem;
+  text-align: center;
+  list-style-type: none;
+}
+
+.switchActive{
+  transition: 0.3s;
+  border-radius:5px;
+  background-color: #0366d6;
+  color: white;
+}
+
+/* Post */
+.newProfile-photo {
+  min-height: 400px;
+  max-height: 600px;
+  border-radius: 15px;
+  background-color: rgb(200, 200, 200);
+}
+
+.newProfile-photo div img {
+  width: 100px;
+}
+
+.shareIcon:hover, .shareIcon:link, .shareIcon:focus, .shareIcon {
+  background-color: transparent;
+  outline: 0;
+  border: 0;
+}
+
+/*Post: Desktop*/ 
+/*Post: Desktop Single*/
+.postLink:link, .postLink:hover, .postLink:focus, .postLink:active, .postLink:visited {
+  color: black;
+  text-decoration: none;
+}
+
+.desktop-postTextSingle {
+  min-height: 200px;
+  max-height: 600px;
+  border-radius: 15px;
+}
+
+.desktop-postDescription {
+  width: 100%;
+  min-height: 300px;
+  max-height: 100%;
+  border-radius: 15px;
+  border: solid rgb(220, 220, 220) 1px;
+}
+
+.desktop-postPhotoSingle {
+  min-height: 400px;
+  max-height: 600px;
+  width: 100%;
+  border-radius: 15px;
+}
+
+.desktop-postProfile img{
+  width: 100%;
+  border-radius: 50%;
+}
+
+.desktop-postDescription .col-7 {
+  font-weight: bold;
+  color: rgb(44, 44, 44);
+}
+
+.desktop-postDescription .col-2 {
+  font-weight: bold;
+  color: rgb(144, 144, 144);
+}
+
+.desktop-postDescriptionTop {
+  height: 30%;
+  min-height: 125px;
+  width: 100% !important;
+  margin: auto;
+}
+
+.desktop-postDescriptionBottom {
+  height: 70% !important;
+  width: 100% !important;
+}
+
+.desktop-commentScroll {
+  overflow-y: auto;
+}
+
+/*Post: Desktop Feed */
+.desktop-postSingle {
+  min-height: 200px;
+  max-height: 600px;
+  border-radius: 15px;
+}
+
+.desktop-profilepostSingle-image {
+  min-height: 200px !important;
+  max-height: 400px !important;
+  border-radius: 15px;
+}
+
+.desktop-profilepostSingle-text {
+  height: 250px;
+  border-radius: 15px;
+}
+
+.desktop-postBlock {
+  cursor: pointer;
+}
+
+.desktop-postImg {
+  border-radius: 50%;
+}
+
+.desktop-postSidebar {
+  position: fixed;
+  right: 0;
+  overflow-y: auto;
+  padding-bottom: 4rem;
+}
+
+.desktop-postSidebar-scroll {
+  overflow-y: auto;
+}
+
+.desktop-postPages li, .desktop-postRecentActivity li {
+  font-weight: bold;
+  margin-bottom: .25em;
+  list-style-type: none;
+  color: #666;
+}
+
+.desktop-postResponseImg span {
+  margin-right: 0.5rem;
+}
+
+.desktop-postResponseImg span img {
+  max-width: 25px;
+  margin-right: 0.5rem;
+  opacity: .9;
+}
+
+.desktop-postUsername {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.desktop-postDateTime, .desktop-postPostIcon {
+  color: #999;
+}
+
+.desktop-postPostIcon div img {
+  width: 15%;
+  margin-right: .5em;
+  cursor: pointer;
+}
+
+.shareIcon span img {
+  opacity: 0.75;
+}
+
+/*Feed: Mobile*/ 
+.mobile-postPhoto {
+  max-height: 400px;
+}
+
+.mobile-postPhoto img{
+  width: 100%;
+}
+
+.mobile-postText {
+  padding: 0rem 1rem;
+  min-height: 150px;
+  border-radius: 15px;
+  width: 85%;
+  margin: 5px auto;
+  text-align: center;
+}
+
+.mobile-postResponseImg span, .mobile-postResponseImg div {
+  margin-right: 1rem;
+}
+
+.mobile-postResponseImg span img, .mobile-postResponseImg div img {
+  max-width: 25px;
+  margin-right: 0.5rem;
+  opacity: .9;
+}
+
+
+/* Profile */
+ /*Profile: Desktop */
+ .desktop-profileContainer {
+  height:100%;
+  width:100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.desktop-profileHeader {
+  width: 100%;
+}
+
+
+.desktop-profileHeader h4, .desktop-profileHeader p, .desktop-profileHeader h6 {
+  text-align: center;
+}
+
+.desktop-profileFeedControlRow span, .desktop-profileFeedControlRow button {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+  outline: 0;
+}
+
+.desktop-profileFeedSwitch, .desktop-profileLinks {
+  cursor: pointer;
+}
+
+.desktop-profileLinks {
+  padding: 0;
+}
+
+.desktop-profileLinks li{
+  list-style-type: none;
+  text-align: center;
+}
+
+.desktop-profileContainerFeed {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+ /* Profile: Mobile */
+.mobile-profileContainer {
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.mobile-displayComponentScroll {
+  overflow-y: scroll;
+  min-height: 40% !important;
+  max-height: 55% !important;
+}
+
+.mobile-profileHeader {
+  max-height: 50%;
+}
+
+.mobile-profileInformation {
+  max-height: 70%;
+}
+
+.mobile-profileHeader div div {
+  border-radius: 50%;
+}
+
+.mobile-profileHeader  div div img {
+  width: 100%;
+}
+
+.mobile-profileFollowRow {
+  height: 10%;
+} 
+
+.mobile-profileFeedControlRow {
+  height: 15%;    
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, .05);
+  padding: 10px 0;
+}
+
+.mobile-profileFollows span {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.mobile-profileFollows div span {
+  font-weight: bold;
+}
+
+.mobile-profileViewButton:focus {
+  outline:0;
+}
+
+.mobile-profileViewButton div{
+  width: 50%;
+  height: 100%;
+}
+
+.mobile-profileViewButton div img {
+  width: 60% !important;
+  height: 60%;
+}
+
+.mobile-profileViewGreyed {
+  transition: 0.2s;
+  opacity: 0.5;
+}
+
+.mobile-profileGridBlock {
+  max-height: 150px;
+}
+
+/* Login/Register */
+.login-changeLogin {
+  cursor: pointer;
+}
+
+.createProfile-scroll {
+  overflow-y: auto;
+  padding-top: 5rem !important;
+  padding-bottom: 5rem !important;
+}
+
+/* Single Post: Desktop */
+.description-singlePostText {
+  width: 100%;
+  min-height: 300px;
+  max-height: 100%;
+  border-radius: 15px;
+  border: solid rgb(220, 220, 220) 1px;
+}
+
+.desktop-singlePostLike img {
+  width: 25px;
+  margin:0;
+  cursor: pointer;
+}
+
+.desktop-singlePostComment img {
+  width: 20px;
+  margin-left: 0;
+  margin-right: .50rem;
+  cursor: pointer;
+}
+
+.desktop-singlePostShare img {
+  width: 20px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.desktop-singPostLike-List {
+  width: 100% !important;
+}
