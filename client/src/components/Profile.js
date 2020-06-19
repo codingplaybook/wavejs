@@ -69,7 +69,7 @@ export class ProfileComponent extends Component {
   }
 
   componentDidMount(){
-    axios.get(`/users/profile/userame/${this.props.username}`)
+    /*axios.get(`/users/profile/userame/${this.props.username}`)
     .then(res=>{
       this.setState({
         isloaded:true,
@@ -81,14 +81,14 @@ export class ProfileComponent extends Component {
         console.log(this.props.activeUser);
       })
     })
-    .catch(err=>console.log('Error getting user profile: ' + err));
+    .catch(err=>console.log('Error getting user profile: ' + err));*/
 
 
-    /*fetch(`/users/profile/username/${this.props.username}`)
-    .then(res => res.json())
+    fetch(`/users/profile/username/${this.props.username}`)
+    .then(res => res.text())
     .then(
       (result) => {
-        this.setState({
+        /*this.setState({
           isLoaded: true,
           profile: result
         },()=>{
@@ -96,7 +96,8 @@ export class ProfileComponent extends Component {
             isFollowing: this.state.profile.followers[0].some(x => x.username === this.props.activeUser.username)
           })
           console.log(this.props.activeUser);
-        });          
+        });*/  
+        console.log(result)    
       },
       // Note: it's important to handle errors here
       // instead of a catch() block so that we don't swallow
@@ -104,7 +105,7 @@ export class ProfileComponent extends Component {
       (error) => {
         console.log("Error getting user profile: " + error);
       }
-    )*/
+    )
   }
 
   /*

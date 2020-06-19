@@ -102,7 +102,7 @@ export class Register extends Component{
  
      if(this.state.username.match(usernameFormat) && this.state.username.length >= 8 && this.state.username.length <= 16){
        //check if username already exists
-       axios.get(`/users/checkUsername/${this.state.username}`)
+       axios.get(`/routes/users/checkUsername/${this.state.username}`)
        .then(res=>{
          this.setState({
            isUsernameValid:res.data.isUsernameValid,
