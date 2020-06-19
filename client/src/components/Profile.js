@@ -69,7 +69,22 @@ export class ProfileComponent extends Component {
   }
 
   componentDidMount(){
-    fetch(`/users/profile/username/${this.props.username}`)
+    axios.get(`/users/profile/userame/${this.props.username}`)
+    .then(res=>{
+      this.setState({
+        isloaded:true,
+        profile:res
+      },()=>{
+        this.setState({
+          isFollowing: this.state.profile.followers[0].some(x => x.username === this.props.activeUser.username)
+        });
+        console.log(this.props.activeUser);
+      })
+    })
+    .catch(err=>console.log('Error getting user profile: ' + err));
+
+
+    /*fetch(`/users/profile/username/${this.props.username}`)
     .then(res => res.json())
     .then(
       (result) => {
@@ -89,7 +104,7 @@ export class ProfileComponent extends Component {
       (error) => {
         console.log("Error getting user profile: " + error);
       }
-    )
+    )*/
   }
 
   /*

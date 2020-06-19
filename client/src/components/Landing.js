@@ -59,7 +59,7 @@ export function Landing(props){
         </div>
         <div className="col-md-6 col-sm-12 mb-5 d-flex justify-content-center align-items-center landingSix"><img src={NaviFree} alt="NaviFree"/></div>
         <div className="col-md-6 col-sm-12 mb-5 d-flex justify-content-center align-items-center landingSix">
-          <a href="https://my-simple-node.herokuapp.com/login"><img src={SimpleCRM} alt="SimpleCRM" /></a>
+          <a href="https://my-simple-node.herokuapp.com/"><img src={SimpleCRM} alt="SimpleCRM" /></a>
         </div>
         <div className="col-md-6 col-sm-12 mb-5 px-5 d-flex flex-wrap align-content-center">
           <div>
