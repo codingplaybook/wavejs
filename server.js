@@ -3,18 +3,11 @@ const app = express();
 const port = process.env.PORT || 5000;
 const cors = require('cors');
 const path = require('path');
+const uploader = require('./config/cloudinaryConfig');
+const cloudinaryConfig = require('./config/cloudinaryConfig');
 
 require('./db/db');
 require('dotenv').config();
-
-if (process.env.NODE_ENV === 'production') {
-  // Serve any static files
-  app.use(express.static(path.join(__dirname, 'client', 'build')));
-// Handle React routing, return all requests to React app
-  app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-  });
-}
 
 //const dbCheck = require('./db/dbCheck');
 
@@ -29,7 +22,14 @@ const postsRouter = require('./routes/posts');
 app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 
-
+if (process.env.NODE_ENV === 'production') {
+  // Serve any static files
+  app.use(express.static(path.join(__dirname, 'client', 'build')));
+// Handle React routing, return all requests to React app
+  app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
