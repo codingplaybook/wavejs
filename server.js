@@ -3,8 +3,8 @@ const app = express();
 const port = process.env.PORT || 5000;
 const cors = require('cors');
 const path = require('path');
-const uploader = require('./config/cloudinaryConfig');
-const cloudinaryConfig = require('./config/cloudinaryConfig');
+//const uploader = require('./config/cloudinaryConfig');
+//const cloudinaryConfig = require('./config/cloudinaryConfig');
 
 require('./db/db');
 require('dotenv').config();
