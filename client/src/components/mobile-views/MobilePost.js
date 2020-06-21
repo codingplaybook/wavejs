@@ -17,7 +17,7 @@ export default function MobilePost(props){
   const postImageUrl = props.post.image;
 
   const mobileFeedProfileImgStyle = {
-    backgroundImage: (props.post.userId.image ? `url('/${backgroundImageUrl.replace(/\\/g, "/")}')` : `url(${SamplePic})`),
+    backgroundImage: (props.post.userId.image ? `url('${props.post.userId.image}')` : `url(${SamplePic})`),
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     width: '25px',
@@ -28,7 +28,7 @@ export default function MobilePost(props){
   const mobileFeedPostImgStyle = {
     maxHeight:'400px',
     minHeight:'200px',
-    backgroundImage:(props.post.image ? `url('/${postImageUrl.replace(/\\/g, "/")}')` : `url(${SamplePic})`),
+    backgroundImage:(props.post.image ? `url('${props.post.image}')` : `url(${SamplePic})`),
     backgroundSize:'cover',
     backgroundPosition:'center'
   }

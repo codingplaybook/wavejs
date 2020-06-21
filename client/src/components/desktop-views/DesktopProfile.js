@@ -86,9 +86,9 @@ export function DesktopProfile(props){
             </div>
           <ul className="desktop-profileLinks">
             <li>
-              <span onClick={()=>props.handleActiveComponent('followers')}>Followers&nbsp;{props.profile.followers ? props.profile.followers[0].length : '0'}</span>
+              <span onClick={()=>props.handleActiveComponent('followers')}>Followers&nbsp;{props.profile.followers ? props.profile.followers.followers.length : '0'}</span>
               &nbsp;|&nbsp; 
-              <span onClick={()=>props.handleActiveComponent('following')}>Following&nbsp;{props.profile.followings ? props.profile.followings[0].length : '0'}</span>
+              <span onClick={()=>props.handleActiveComponent('following')}>Following&nbsp;{props.profile.followings ? props.profile.followings.followings.length : '0'}</span>
             </li>
             { props.activeUser._id === props.profile._id ? 
             <li onClick={()=>props.handleActiveComponent('edit')}>

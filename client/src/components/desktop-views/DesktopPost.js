@@ -15,7 +15,7 @@ export default function DesktopPost(props){
   const postImageUrl = props.post.image;
   
   const feedProfileImgStyle = {
-    backgroundImage: (props.post.userId.image ? `url('/${backgroundImageUrl.replace(/\\/g, "/")}')` : `url(${SamplePic})`),
+    backgroundImage: (props.post.userId.image ? `url('${props.post.userId.image}')` : `url(${SamplePic})`),
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     width: '60px',
@@ -24,7 +24,7 @@ export default function DesktopPost(props){
   }
 
   const feedPostImgStyle = {
-    backgroundImage:(props.post.image ? `url('/${postImageUrl.replace(/\\/g, "/")}')` : `url(${SamplePic})`),
+    backgroundImage:(props.post.image ? `url('${props.post.image}')` : `url(${SamplePic})`),
     borderRadius:'15px',
     backgroundSize:'cover',
     backgroundPosition:'center',

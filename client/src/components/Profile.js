@@ -69,16 +69,20 @@ export class ProfileComponent extends Component {
   }
 
   componentDidMount(){
-    axios.get(`/users/profile/userame/${this.props.username}`)
+    axios.get(`/users/profile/username/${this.props.username}`)
     .then(res=>{
       this.setState({
-        isloaded:true,
-        profile:res
+        isLoaded:true,
+        profile:res.data
       },()=>{
-        this.setState({
-          isFollowing: this.state.profile.followers[0].some(x => x.username === this.props.activeUser.username)
+        if(this.state.profile.followers != null) {
+          this.setState({
+          isFollowing: this.state.profile.followers.followers.some(x => x.username === this.props.activeUser.username)
         });
-        console.log(this.props.activeUser);
+        } else {
+          this.setState({ isFollowing: 0 });
+        }
+        console.log(this.state.profile);
       })
     })
     .catch(err=>console.log('Error getting user profile: ' + err));
@@ -351,11 +355,11 @@ export class ProfileComponent extends Component {
 
   render(){
 
-    const backgroundProfileImg = this.state.profile.image ? this.state.profile.image : defaultProfileImg;
+    const backgroundProfileImg = this.state.profile.image ? this.state.profile.image : defaultProfileImg.replace(/\\/g, "/");
 
-    const newProfileImage = this.state.newPreviewProfileImage ? this.state.newPreviewProfileImage : defaultProfileImg;
+    const newProfileImage = this.state.newPreviewProfileImage ? this.state.newPreviewProfileImage : defaultProfileImg.replace(/\\/g, "/");
 
-    const newPostImage = this.state.newPreviewPostImage ? this.state.newPreviewPostImage : addNewImage;
+    const newPostImage = this.state.newPreviewPostImage ? this.state.newPreviewPostImage : addNewImage.replace(/\\/g, "/");
 
     const newProfileImgStyle = {
       width: '100px',
@@ -375,7 +379,7 @@ export class ProfileComponent extends Component {
       margin: 'auto',
       marginBottom:'0.25rem',
       borderRadius: '50%',
-      backgroundImage: `url('/${backgroundProfileImg.replace(/\\/g, "/")}')`,
+      backgroundImage: `url('${backgroundProfileImg}')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center'
     }
@@ -399,7 +403,7 @@ export class ProfileComponent extends Component {
       marginBottom:'0.25rem',
       borderRadius: '50%',
       backgroundColor: 'gray',
-      backgroundImage:  `url('/${backgroundProfileImg.replace(/\\/g, "/")}')`,
+      backgroundImage:  `url('${backgroundProfileImg}')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center' 
     }
