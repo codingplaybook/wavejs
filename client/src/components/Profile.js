@@ -69,26 +69,7 @@ export class ProfileComponent extends Component {
   }
 
   componentDidMount(){
-    axios.get(`/users/profile/username/${this.props.username}`)
-    .then(res=>{
-      this.setState({
-        isLoaded:true,
-        profile:res.data
-      },()=>{
-        if(this.state.profile.followers != null) {
-          this.setState({
-          isFollowing: this.state.profile.followers.followers.some(x => x.username === this.props.activeUser.username)
-        });
-        } else {
-          this.setState({ isFollowing: 0 });
-        }
-        console.log(this.state.profile);
-      })
-    })
-    .catch(err=>console.log('Error getting user profile: ' + err));
-
-
-    /*fetch(`/users/profile/username/${this.props.username}`)
+    fetch(`/users/profile/username/${this.props.username}`)
     .then(res => res.json())
     .then(
       (result) => {
@@ -97,7 +78,7 @@ export class ProfileComponent extends Component {
           profile: result
         },()=>{
           this.setState({
-            isFollowing: this.state.profile.followers[0].some(x => x.username === this.props.activeUser.username)
+            isFollowing: this.state.profile.followers.followers.some(x => x.username === this.props.activeUser.username)
           })
           console.log(this.props.activeUser);
         });          
@@ -108,7 +89,7 @@ export class ProfileComponent extends Component {
       (error) => {
         console.log("Error getting user profile: " + error);
       }
-    )*/
+    )
   }
 
   /*
@@ -355,11 +336,11 @@ export class ProfileComponent extends Component {
 
   render(){
 
-    const backgroundProfileImg = this.state.profile.image ? this.state.profile.image : defaultProfileImg.replace(/\\/g, "/");
+    const backgroundProfileImg = this.state.profile.image ? this.state.profile.image : 'https://res.cloudinary.com/dzaepha4e/image/upload/v1592793992/default-profile_wydw3s.png';
 
-    const newProfileImage = this.state.newPreviewProfileImage ? this.state.newPreviewProfileImage : defaultProfileImg.replace(/\\/g, "/");
+    const newProfileImage = this.state.newPreviewProfileImage ? this.state.newPreviewProfileImage : 'https://res.cloudinary.com/dzaepha4e/image/upload/v1592793992/default-profile_wydw3s.png';
 
-    const newPostImage = this.state.newPreviewPostImage ? this.state.newPreviewPostImage : addNewImage.replace(/\\/g, "/");
+    const newPostImage = this.state.newPreviewPostImage ? this.state.newPreviewPostImage : 'https://res.cloudinary.com/dzaepha4e/image/upload/v1592794052/addImage_js9ypz.png';
 
     const newProfileImgStyle = {
       width: '100px',
@@ -379,7 +360,7 @@ export class ProfileComponent extends Component {
       margin: 'auto',
       marginBottom:'0.25rem',
       borderRadius: '50%',
-      backgroundImage: `url('${backgroundProfileImg}')`,
+      backgroundImage: `url('/${backgroundProfileImg}')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center'
     }
@@ -403,7 +384,7 @@ export class ProfileComponent extends Component {
       marginBottom:'0.25rem',
       borderRadius: '50%',
       backgroundColor: 'gray',
-      backgroundImage:  `url('${backgroundProfileImg}')`,
+      backgroundImage:  `url('/${backgroundProfileImg}')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center' 
     }

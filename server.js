@@ -9,12 +9,12 @@ const path = require('path');
 require('./db/db');
 require('dotenv').config();
 
-//const dbCheck = require('./db/dbCheck');
+const dbCheck = require('./db/dbCheck');
 
 app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
-//dbCheck.checkDate();
+dbCheck.checkDate();
 
 const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');
