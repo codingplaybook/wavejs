@@ -360,7 +360,7 @@ export class ProfileComponent extends Component {
       margin: 'auto',
       marginBottom:'0.25rem',
       borderRadius: '50%',
-      backgroundImage: `url('/${backgroundProfileImg}')`,
+      backgroundImage: `url('${backgroundProfileImg}')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center'
     }
@@ -384,7 +384,7 @@ export class ProfileComponent extends Component {
       marginBottom:'0.25rem',
       borderRadius: '50%',
       backgroundColor: 'gray',
-      backgroundImage:  `url('/${backgroundProfileImg}')`,
+      backgroundImage:  `url('${backgroundProfileImg}')`,
       backgroundSize: 'cover',
       backgroundPosition: 'center' 
     }

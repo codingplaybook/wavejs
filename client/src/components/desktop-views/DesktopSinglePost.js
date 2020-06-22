@@ -17,7 +17,7 @@ export default function DesktopSinglePost(props){
   const postImageUrl = props.post.image;
 
   const postProfilePic = {
-    backgroundImage: (props.post.userId.image ? `url('/${postUserImageUrl.replace(/\\/g, "/")}')` : `url(${SampleProfile})`),
+    backgroundImage: (props.post.userId.image ? `url('${postUserImageUrl}')` : `url(${SampleProfile})`),
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     width: '50px',
@@ -26,7 +26,7 @@ export default function DesktopSinglePost(props){
   }
 
   const commentUserPic = {
-    backgroundImage: (props.activeUser.image ? `url('/${backgroundImageUrl.replace(/\\/g, "/")}')` : `url(${SampleProfile})`),
+    backgroundImage: (props.activeUser.image ? `url('${backgroundImageUrl}')` : `url(${SampleProfile})`),
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     width: '40px',
@@ -46,7 +46,7 @@ export default function DesktopSinglePost(props){
   }
 
   const postPhoto = {
-    backgroundImage:(props.post.image ? `url('/${postImageUrl.replace(/\\/g, "/")}')` : `url(${SampleProfile})`),
+    backgroundImage:(props.post.image ? `url('${postImageUrl}')` : `url(${SampleProfile})`),
     backgroundColor: 'grey',
     borderRadius:'15px',
     backgroundSize:'cover',
@@ -57,7 +57,7 @@ export default function DesktopSinglePost(props){
     { 
       const commentImageUrl = comment.userId.image ;
       const commentProfilePic = {
-        backgroundImage: (comment.userId.image ? `url('/${commentImageUrl.replace(/\\/g, "/")}')` : `url(${comment.userId.image})`),
+        backgroundImage: (comment.userId.image ? `url('${commentImageUrl}')` : `url(${comment.userId.image})`),
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         width: '30px',

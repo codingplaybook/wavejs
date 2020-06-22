@@ -128,8 +128,8 @@ export function MobileProfile(props){
           </div>
           <div className="row px-5 py-2 mobile-profileFollowRow">
             <div className="w-100 mx-auto d-flex justify-content-between mobile-profileFollows">
-              <span onClick={()=>props.handleActiveComponent('followers')}>{props.profile.followers ? props.profile.followers[0].length : '0'} Followers</span>
-              <span onClick={()=>props.handleActiveComponent('following')}>{props.profile.followings ? props.profile.followings[0].length : '0'} Following</span>
+              <span onClick={()=>props.handleActiveComponent('followers')}>{props.profile.followers ? props.profile.followers.followers.length : '0'} Followers</span>
+              <span onClick={()=>props.handleActiveComponent('following')}>{props.profile.followings ? props.profile.followings.followings.length : '0'} Following</span>
             </div>
           </div>
           <div className="row mobile-profileFeedControlRow">

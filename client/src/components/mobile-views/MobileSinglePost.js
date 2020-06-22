@@ -63,7 +63,7 @@ export default function MobilePost(props){
   const postImageUrl = props.post.image;
 
   const mobileFeedProfileImgStyle = {
-    backgroundImage: (props.post.userId.image ? `url('/${backgroundImageUrl.replace(/\\/g, "/")}')` : `url(${SamplePic})`),
+    backgroundImage: (props.post.userId.image ? `url('${backgroundImageUrl}')` : `url('https://res.cloudinary.com/dzaepha4e/image/upload/v1592794284/sample-profile-pic_jxtcf8.jpg')`),
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     width: '25px',
@@ -73,7 +73,7 @@ export default function MobilePost(props){
 
   const mobileFeedPostImgStyle = {
     minHeight:'300px',
-    backgroundImage:(props.post.image ? `url('/${postImageUrl.replace(/\\/g, "/")}')` : `url(${SamplePic})`),
+    backgroundImage:(props.post.image ? `url('${postImageUrl}')` : `url('https://res.cloudinary.com/dzaepha4e/image/upload/v1592794284/sample-profile-pic_jxtcf8.jpg')`),
     backgroundSize:'cover',
     backgroundPosition:'center'
   }

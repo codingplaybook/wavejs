@@ -7,11 +7,11 @@ export default function FollowBlock(props){
   
   const selectFollow = props.followDisplay === 'followers' ? 'Followers' : 'Following';
 
-  const followType = props.followDisplay === 'followers' ? props.profile.followers : props.profile.followings;
+  const followType = props.followDisplay === 'followers' ? props.profile.followers.followers : props.profile.followings.followings;
 
   function displayFollowImg(image){
     return {
-      backgroundImage: (image ? `url('/${image.replace(/\\/g, "/")}')` : `url(${SamplePic})`),
+      backgroundImage: (image ? `url('${image}')` : `url('https://res.cloudinary.com/dzaepha4e/image/upload/v1592794284/sample-profile-pic_jxtcf8.jpg')`),
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       width: '60px',
@@ -20,7 +20,7 @@ export default function FollowBlock(props){
     }
   }
 
-  const singleFollowProfile = followType[0].map(follow => 
+  const singleFollowProfile = followType.map(follow => 
     (
       <div key={follow._id} className="w-100 row d-flex flex-wrap align-items-center">
         <div className="col-3">

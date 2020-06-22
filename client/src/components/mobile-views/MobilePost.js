@@ -17,7 +17,7 @@ export default function MobilePost(props){
   const postImageUrl = props.post.image;
 
   const mobileFeedProfileImgStyle = {
-    backgroundImage: (props.post.userId.image ? `url('/${backgroundImageUrl.replace(/\\/g, "/")}')` : `url(${SamplePic})`),
+    backgroundImage: (props.post.userId.image ? `url('${backgroundImageUrl}')` : `url('https://res.cloudinary.com/dzaepha4e/image/upload/v1592794284/sample-profile-pic_jxtcf8.jpg')`),
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     width: '25px',
@@ -28,7 +28,7 @@ export default function MobilePost(props){
   const mobileFeedPostImgStyle = {
     maxHeight:'400px',
     minHeight:'200px',
-    backgroundImage:(props.post.image ? `url('/${postImageUrl.replace(/\\/g, "/")}')` : `url(${SamplePic})`),
+    backgroundImage:(props.post.image ? `url('${postImageUrl}')` : `url('https://res.cloudinary.com/dzaepha4e/image/upload/v1592794284/sample-profile-pic_jxtcf8.jpg')`),
     backgroundSize:'cover',
     backgroundPosition:'center'
   }
@@ -55,12 +55,12 @@ export default function MobilePost(props){
             <div className="w-100 row p-0 m-0 d-flex flex-wrap align-items-center justify-content-between">
               <span>
                 <img onClick={props.post.userLiked === true ? props.handleLike : props.handleDislike} src={Like} alt="Like-Icon" />
-                <span><Link className="postLink" to={`/post/${props.post.link}`}>{props.post.likes ? props.post.likes[0].length : 0}&nbsp;likes</Link></span>
+                <span><Link className="postLink" to={`/post/${props.post.link}`}>{props.post.likes ? props.post.likes.likes.length : 0}&nbsp;likes</Link></span>
               </span>
               <span>
                 <Link className="postLink" to={`/post/${props.post.link}`}>
                 <img src={Comment} alt="Comment-Icon" />
-                {props.post.comments ? props.post.comments[0].length : 0}&nbsp;comments
+                {props.post.comments ? props.post.comments.comments.length : 0}&nbsp;comments
                 </Link>
               </span>
               <span>

@@ -66,7 +66,7 @@ export class NavMenu extends Component {
     const profileImgLink = this.props.user.image;
 
     const profileImg = this.props.user.image != null ? 
-    (`/${profileImgLink.replace(/\\/g, "/")}`) : null;
+    (`${profileImgLink}`) : null;
 
     const profileCircle = {
       height: '25px',
