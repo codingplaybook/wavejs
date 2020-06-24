@@ -2,17 +2,17 @@ import React from 'react';
 import NewPost from '../NewPost';
 import FollowBlock from '../FollowBlock';
 import EditProfile from '../EditProfile';
-import FeedComponent from '../Feed';
+import Feed from '../Feed';
 
 export function DesktopProfile(props){
 
   const displayActiveComponent = () => {
     switch(props.activeComponent){
       case 'photo':
-        return <FeedComponent profile={props.profile} profileFeedDisplay={true} username={props.profile.username} profileDisplayType={'image'}/>;
+        return <Feed profile={props.profile} profileFeedDisplay={true} profileDisplayType={'image'} activeUser={props.activeUser}/>;
 
       case 'text':
-        return <FeedComponent profile={props.profile} profileFeedDisplay={true} username={props.profile.username} profileDisplayType={'text'} />;
+        return <Feed profile={props.profile} profileFeedDisplay={true} profileDisplayType={'text'} activeUser={props.activeUser}/>;
 
       case 'edit':
         return <EditProfile
@@ -20,7 +20,11 @@ export function DesktopProfile(props){
         editUsername={props.editUsername}
         editFirstname={props.editFirstname}
         editLastname={props.editLastname}
-        editDescription={props.editDescription} 
+        editPassword={props.editPassword}
+        editRePassword={props.editRePassword}
+        editDescription={props.editDescription}
+        showErrors={props.showErrors}
+        isEditError={props.isEditError} 
         newProfileImgStyle={props.newProfileImgStyle}
         previewProfileImage={props.previewProfileImage}
         handleProfileChange={props.handleProfileChange}
@@ -49,12 +53,12 @@ export function DesktopProfile(props){
         />;
 
       case 'all':
-        return <FeedComponent 
+        return <Feed 
         profile={props.profile}
         activeUser={props.activeUser} profileFeedDisplay={true} />; 
 
       default:
-        return <FeedComponent profile={props.profile} profileFeedDisplay={true} />;
+        return <Feed profile={props.profile} profileFeedDisplay={true} />;
     }
   }  
   console.log('isFollowing: ' + props.isFollowing);
@@ -111,7 +115,7 @@ export function DesktopProfile(props){
           <button type="button" className={"btn btn-outline-light text-dark desktop-profileFeedSwitch"} onClick={()=>props.handleActiveComponent('photo')}>Photos Only</button>
           <button type="button" className={"btn btn-outline-light text-dark desktop-profileFeedSwitch"} onClick={()=>props.handleActiveComponent('text')}>Text Only</button>
           { props.activeUser._id === props.profile._id ? 
-          <button type="button" className={"btn btn-outline-light text-dark desktop-profileFeedSwitch"} onClick={()=>props.handleActiveComponent('new')}>+ New Post</button>
+          <button type="button" className={"btn btn-outline-primary btn-sm desktop-profileFeedSwitch"} onClick={()=>props.handleActiveComponent('new')}><b>+ New Post</b></button>
           : null }
         </div>
         <div className="desktop-profileContainerFeed py-2 px-5">

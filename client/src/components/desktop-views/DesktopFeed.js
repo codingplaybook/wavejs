@@ -16,7 +16,7 @@ export function DesktopFeed(props){
       post={post}
       getCreatedDate={props.getCreatedDate}
       profileFeedDisplay={props.profileFeedDisplay}
-        profileDisplayType={props.profileDisplayType}
+      profileDisplayType={props.profileDisplayType}
       /> : null
     }
     else if(props.profileDisplayType === 'image'){
@@ -45,48 +45,7 @@ export function DesktopFeed(props){
       />
       }
     }
-  );
-
-  /*const Posts = props.posts ? 
-    props.profileDisplayType === 'text' ? 
-      props.posts.filter(post => post.type === 'text').map(post => 
-        (
-          <DesktopPost 
-          activeUser={props.activeUser}
-          handleLike={props.handleLike}
-          handleDislike={props.handleDislike}
-          key={post._id}
-          post={post}
-          getCreatedDate={props.getCreatedDate}
-          />
-        )
-      )  
-  : 
-  props.profileDisplayType === 'image' ? 
-      props.posts.filter(post => post.type === 'image').map(post => 
-        (
-          <DesktopPost 
-          activeUser={props.activeUser}
-          handleLike={props.handleLike}
-          handleDislike={props.handleDislike}
-          key={post._id}
-          post={post}
-          getCreatedDate={props.getCreatedDate}
-          />
-        )
-      )  
-  : props.posts.map(post => 
-    (
-      <DesktopPost 
-      activeUser={props.activeUser}
-      handleLike={props.handleLike}
-      handleDislike={props.handleDislike}
-      key={post._id}
-      post={post}
-      getCreatedDate={props.getCreatedDate}
-      />
-    ) 
-    ) : <h5 className="text-center">No Posts to display</h5>;*/
+  ); 
 
   return props.profileFeedDisplay ? (
     <div className="container-fluid h-100 py-3 px-4">
@@ -98,7 +57,6 @@ export function DesktopFeed(props){
         <div className="col-md-7 col-12 h-100 px-2 pt-3 desktop-postContent">
             {PostList}
         </div>
-          {/* Work on Sidenav later... <SideNav />*/}
           <SideNavInfo />
       </div>
     </div>

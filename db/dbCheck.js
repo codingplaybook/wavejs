@@ -102,18 +102,74 @@ const usersArr = [];
 const postsArr = [];
 
 function updateFollowers(){
+  //5 Users total
+
+  //User 1
+  User.findByIdAndUpdate(usersArr[0][0]._id)
+  .then(user=>{
+    user.followers.followers = [...user.followers.followers,usersArr[0][1]._id,usersArr[0][2]._id,usersArr[0][3]._id];
+    user.followings.followings = [...user.followings.followings,usersArr[0][1]._id,usersArr[0][3]._id,usersArr[0][4]._id];
+    user.save();
+  })
+  .then(()=>{
+    //User 2
+    User.findByIdAndUpdate(usersArr[0][1]._id)
+    .then(user=>{
+      user.followers.followers = [...user.followers.followers,usersArr[0][0]._id,usersArr[0][4]._id];
+      user.followings.followings = [...user.followings.followings,usersArr[0][0]._id,usersArr[0][2]._id,usersArr[0][4]._id];
+      user.save();
+    })
+    .then(()=>{
+      //User 3
+      User.findByIdAndUpdate(usersArr[0][2]._id)
+      .then(user=>{
+        user.followers.followers = [...user.followers.followers,usersArr[0][1]._id,usersArr[0][3]._id,usersArr[0][4]._id];
+        user.followings.followings = [...user.followings.followings,usersArr[0][0]._id,usersArr[0][3]._id];
+        user.save();
+      })
+      .then(()=>{
+        //User 4
+        User.findByIdAndUpdate(usersArr[0][3]._id)
+        .then(user=>{
+          user.followers.followers = [...user.followers.followers,usersArr[0][0]._id,usersArr[0][2]._id];
+          user.followings.followings = [...user.followings.followings,usersArr[0][0]._id,usersArr[0][2]._id,usersArr[0][4]._id];
+          user.save();
+        })
+        .then(()=>{
+          //User 5
+          User.findByIdAndUpdate(usersArr[0][4]._id)
+          .then(user=>{
+            user.followers.followers = [...user.followers.followers,usersArr[0][0]._id,usersArr[0][1]._id,usersArr[0][3]._id];
+            user.followings.followings = [...user.followings.followings,usersArr[0][1]._id,usersArr[0][2]._id];
+            user.save();
+          })
+          .then(()=>{
+            User.find()
+            .populate('followers')
+            .populate('followings')
+            .then((user) => console.log(user))
+            .catch(err => res.status(400).json("Error getting all users: " + err));
+          })
+          .catch(err=>console.log('Error on 5th user: ' + err)); 
+        })
+        .catch(err=>console.log('Error on 4th user: ' + err)); 
+      })
+      .catch(err=>console.log('Error on 3rd user: ' + err)); 
+    })
+    .catch(err=>console.log('Error on 2nd user: ' + err));
+  })
+  .catch(err=>console.log('Error on 1st user: ' + err));
 
 }
 
-function pushComments(){
-
+/*function pushComments(){
+  console.log(usersArr);
+  console.log(postsArr);
 }
 
 function pushLikes(){
-  console.log(usersArr);
-  console.log(postsArr);
   
-}
+}*/
 
 function pushPosts(){
 
@@ -136,78 +192,288 @@ function pushPosts(){
   
   Post.insertMany([
     {
+      //0
       description:'Hey so here is a picture! I think it is a mountain',
       type:'image',
       image:'https://res.cloudinary.com/dzaepha4e/image/upload/v1592759908/p-horz-forest_jqhvuz.jpg',
       createdDate:Date.now(),
       link:makeid(10),
       userId:usersArr[0][4]._id,
-      likes:{ id: new mongoose.Types.ObjectId() },
-      comments:{ id: new mongoose.Types.ObjectId() }
+      likes:{ 
+        id: new mongoose.Types.ObjectId(), 
+        likes: [
+          {
+            time:Date.now(),
+            userId:usersArr[0][1]._id
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][2]._id
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][3]._id
+          }
+        ] 
+      },
+      comments:{ 
+        id: new mongoose.Types.ObjectId(),
+        comments: [
+          {
+            time:Date.now(),
+            userId:usersArr[0][1],
+            description:'You’re wonderful.'
+          }
+        ] 
+      }
     },
     {
+      //1
       description:'Kodak moment. Please do not copyright this.',
       type:'image',
       image:'https://res.cloudinary.com/dzaepha4e/image/upload/v1592759907/p-vert-camera_kparqh.jpg',
       createdDate:Date.now(),
       link:makeid(10),
       userId:usersArr[0][2]._id,
-      likes:{ id: new mongoose.Types.ObjectId() },
-      comments:{ id: new mongoose.Types.ObjectId() }
+      likes:{ 
+        id: new mongoose.Types.ObjectId(),
+        likes: [
+          {
+            time:Date.now(),
+            userId:usersArr[0][0]
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][1]
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][3]
+          }
+        ] 
+      },
+      comments:{ 
+        id: new mongoose.Types.ObjectId(),
+        comments: [
+          {
+            time:Date.now(),
+            userId:usersArr[0][3],
+            description:'You’re a candle in the darkness.'
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][4],
+            description:'Who raised you? They deserve a medal for a job well done.'
+          }
+        ]
+      }
     },
     {
+      //2
       description:'Some important text that you can think over',
       type:'text',
       image:null,
       createdDate:Date.now(),
       link:makeid(10),
       userId:usersArr[0][0]._id,
-      likes:{ id: new mongoose.Types.ObjectId() },
-      comments:{ id: new mongoose.Types.ObjectId() }
+      likes:{ 
+        id: new mongoose.Types.ObjectId(),
+        likes: [
+          {
+            time:Date.now(),
+            userId:usersArr[0][4]
+          }
+        ] 
+      },
+      comments:{ 
+        id: new mongoose.Types.ObjectId(),
+        comments: [
+          {
+            time:Date.now(),
+            userId:usersArr[0][0],
+            description:'You are awesome!'
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][1],
+            description:'You are strong.'
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][2],
+            description:'Our community is better because you are in it.'
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][4],
+            description:'Love this!'
+          }
+        ]
+      }
     },
     {
+      //3
       description:'Prestige Worlwide. That is all',
       type:'image',
       image:'https://res.cloudinary.com/dzaepha4e/image/upload/v1592759909/p-horz-mountain_acu26j.jpg',
       createdDate:Date.now(),
       link:makeid(10),
       userId:usersArr[0][0]._id,
-      likes:{ id: new mongoose.Types.ObjectId() },
-      comments:{ id: new mongoose.Types.ObjectId() }
+      likes:{ 
+        id: new mongoose.Types.ObjectId(),
+        likes: [
+          {
+            time:Date.now(),
+            userId:usersArr[0][2]
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][4]
+          },
+        ]
+      },
+      comments:{ 
+        id: new mongoose.Types.ObjectId(),
+        comments: [
+          {
+            time:Date.now(),
+            userId:usersArr[0][2],
+            description:'Amazing!'
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][4],
+            description:'Just a fantastic photo!'
+          }
+        ]
+      }
     },
     {
+      //4
       description:'Lorem Bacon Ipsum and other filler text',
       type:'text',
       image:null,
       createdDate:Date.now(),
       link:makeid(10),
       userId:usersArr[0][3]._id,
-      likes:{ id: new mongoose.Types.ObjectId() },
-      comments:{ id: new mongoose.Types.ObjectId() }
+      likes:{ 
+        id: new mongoose.Types.ObjectId(),
+        likes: [
+          {
+            time:Date.now(),
+            userId:usersArr[0][4]
+          }
+        ] 
+      },
+      comments:{ 
+        id: new mongoose.Types.ObjectId(),
+        comments: [
+          {
+            time:Date.now(),
+            userId:usersArr[0][0],
+            description:'This is great!'
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][1],
+            description:'We are going back next year'
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][2],
+            description:'Just a fantastic photo!'
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][4],
+            description:'Amazing!'
+          }
+        ]
+      }
     },
     {
+      //5
       description:'The party wont stop, will never stop',
       type:'text',
       image:null,
       createdDate:Date.now(),
       link:makeid(10),
       userId:usersArr[0][1]._id,
-      likes:{ id: new mongoose.Types.ObjectId() },
-      comments:{ id: new mongoose.Types.ObjectId() }
+      likes:{ 
+        id: new mongoose.Types.ObjectId(), 
+        likes: [
+          {
+            time:Date.now(),
+            userId:usersArr[0][3]
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][4]
+          }
+        ]
+      },
+      comments:{ 
+        id: new mongoose.Types.ObjectId(),
+        comments: [
+          {
+            time:Date.now(),
+            userId:usersArr[0][0],
+            description:'Amazing!'
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][1],
+            description:'Amazing!'
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][3],
+            description:'You’re a candle in the darkness.'
+          }
+        ] 
+      }
     },
     {
+      //6
       description:'Have a seat every once in a while',
       type:'image',
       image:'https://res.cloudinary.com/dzaepha4e/image/upload/v1592759907/p-vert-chair_bkzczl.jpg',
       createdDate:Date.now(),
       link:makeid(10),
       userId:usersArr[0][0]._id,
-      likes:{ id: new mongoose.Types.ObjectId() },
-      comments:{ id: new mongoose.Types.ObjectId() }
+      likes:{ 
+        id: new mongoose.Types.ObjectId(),
+        likes: [
+          {
+            time:Date.now(),
+            userId:usersArr[0][1]
+          }
+        ] 
+      },
+      comments:{ 
+        id: new mongoose.Types.ObjectId(),
+        comments: [
+          {
+            time:Date.now(),
+            userId:usersArr[0][1],
+            description:'Beautiful'
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][2],
+            description:'I Love it!'
+          },
+          {
+            time:Date.now(),
+            userId:usersArr[0][3],
+            description:'You’re a candle in the darkness.'
+          }
+        ]
+      }
     }
   ])
   .then(posts=>postsArr.push(posts))
-  .then(()=>pushLikes())
+  .then(()=>updateFollowers())
   .catch(err=>console.log('Error adding users: ' + err));
 }
 

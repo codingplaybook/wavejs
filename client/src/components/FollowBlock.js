@@ -22,7 +22,7 @@ export default function FollowBlock(props){
 
   const singleFollowProfile = followType.map(follow => 
     (
-      <div key={follow._id} className="w-100 row d-flex flex-wrap align-items-center">
+      <div key={follow._id} className="w-100 my-1 row d-flex flex-wrap align-items-center">
         <div className="col-3">
           <Link to={`/profile/${follow.username}`}>
             <div style={displayFollowImg(follow.image)} />

@@ -12,6 +12,7 @@ export function Feed(props){
   profile={props.profile} 
   profileFeedDisplay={props.profileFeedDisplay}
   profileDisplayType={props.profileDisplayType}
+  activeUser={props.activeUser}
   />
 }
 
@@ -32,8 +33,6 @@ export default class FeedComponent extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.profileFeedDisplay);
-    console.log(this.props.profile);
     //Check if profile display
     //If profile display check for post by type
     if(this.props.profileFeedDisplay) {
@@ -48,19 +47,41 @@ export default class FeedComponent extends Component {
     }  
   }
 
-  handleDislike(postId, userId){
+  handleDislike(postId){
     axios.post(`/post/removeLike/${postId}`,{
-    userId: userId
+    userId: this.props.profile._id ? this.props.profile._id : this.props.activeUser._id
     })
-    .then(res => console.log('res'))
+    .then(() => {
+      if(this.props.profileFeedDisplay) {
+        return axios.get(`/posts/findUserPosts/${this.props.profile.username}`)
+        .then(res => this.setState({posts:res.data, isLoaded:true},()=>console.log('All posts: ' + this.state.posts)))
+        .catch(err => 'Error getting posts: ' + err)
+      } 
+      else {
+        return axios.get(`/posts/`)
+        .then(res => this.setState({posts:res.data, isLoaded:true},()=>console.log('All posts: ' + this.state.posts)))
+        .catch(err => 'Error getting posts: ' + err)
+      }
+    })
     .catch(err => "Error removing a like: " + err);
   }
 
-  handleLike(postId, userId){
+  handleLike(postId){
     axios.post(`/post/addLike/${postId}`,{
-    userId: userId
+    userId: this.props.profile._id ? this.props.profile._id : this.props.activeUser._id
     })
-    .then(res => console.log('res'))
+    .then(() => {
+      if(this.props.profileFeedDisplay) {
+        return axios.get(`/posts/findUserPosts/${this.props.profile.username}`)
+        .then(res => this.setState({posts:res.data, isLoaded:true},()=>console.log('All posts: ' + this.state.posts)))
+        .catch(err => 'Error getting posts: ' + err)
+      } 
+      else {
+        return axios.get(`/posts/`)
+        .then(res => this.setState({posts:res.data, isLoaded:true},()=>console.log('All posts: ' + this.state.posts)))
+        .catch(err => 'Error getting posts: ' + err)
+      }  
+    })
     .catch(err => "Error posting a like: " + err);
   }
 
@@ -104,7 +125,7 @@ export default class FeedComponent extends Component {
   }
 
   render () {
-
+    console.log(this.props.activeUser);
     const renderContent = () => {
       if(isMobile) {
         return <MobileFeed 

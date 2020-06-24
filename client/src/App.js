@@ -52,13 +52,13 @@ class App extends Component {
       }, 
         ()=>this.setState({
           isAuthenticated:localStorage.getItem('isAuthenticated')},
-          ()=>console.log('user = ' + thisUser)
+          ()=>console.log('user = ' + this.state.isAuthenticated)
           )
         );
     }
-  }*/
+  }
 
-  /*componentWillMount() {
+  componentWillMount() {
     this.unlisten = this.props.history.listen((location, action) => {
       localStorage.setItem('myDoor',this.setState({myDoor: location.pathname},()=>console.log('myDoor: ' + this.state.myDoor)));
     });

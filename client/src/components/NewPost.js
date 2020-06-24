@@ -42,7 +42,7 @@ export default function NewPost(props){
            />
         </FormGroup>
         <FormGroup row>
-          <Button onClick={props.handleNewPostSubmit}>Submit</Button>
+          <Button onClick={props.handleNewPostSubmit} className="btn btn-info">Submit</Button>
         </FormGroup>
       </Form>
     </div>

@@ -118,12 +118,12 @@ export class NavMenu extends Component {
         </UncontrolledDropdown>*/}
         <NavItem className="d-flex flex-wrap align-content-center">
             <Link to={{
-              pathname: `/profile/${this.props.user.username}/newpost`,
-              state: {
+              pathname: `/profile/${this.props.user.username}`,
+              change: {
                 activeComponent: 'new'
               }
-            }}><button type="button" className="btn btn-outline-primary btn-sm"><b>+New Post</b>
-            </button>
+            }}>
+              <button type="button" className="btn btn-outline-primary btn-sm"><b>+New Post</b></button>
             </Link>
         </NavItem>
         {/*<UncontrolledDropdown nav inNavbar>

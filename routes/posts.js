@@ -95,9 +95,36 @@ router.post('/newTextPost', (req, res) =>{
 router.post('/newImagePost', upload.single('file'), (req, res) =>{
 
   console.log(req.file);
+
+  const cloudinary = require('cloudinary').v2;
+  cloudinary.config({
+    cloud_name:'dzaepha4e',
+    api_key:'542644634829943',
+    api_secret:'OjOztN1B61w-KHbpwDcf-BGcHH8'
+  });
+
+  const path = req.file.path;
+  const uniqueFilename = new Date().toISOString();
+  
+  function getImage(){
+    return cloudinary.uploader.upload(
+      path,
+      { public_id: `blog/${uniqueFilename}`, tags: `blog` }, // directory and tags are optional
+      function(err, image) {
+        if (err) return res.send(err)
+        console.log('file uploaded to Cloudinary')
+        // remove file from server
+        const fs = require('fs')
+        fs.unlinkSync(path)
+        // return image details
+        res.json(image.secure_url);
+      }
+    );
+  }
+
   const description = req.body.description ? req.body.description : '';
   const type = 'image';
-  const image = req.file.path;
+  console.log('image is ' + image);
   const createdDate = Date.now();
   const userId = req.body.userId;
   const likes = { id: new mongoose.Types.ObjectId() };
@@ -143,6 +170,7 @@ router.route('/').get((req,res) =>{
   .populate('userId')
   .populate('comments')
   .populate('likes')
+  .populate('likes.userId')
   .sort({ createdDate: -1 })
   .then(post=>res.json(post))
   .catch(err => res.status(400).json('Error: ' + err));

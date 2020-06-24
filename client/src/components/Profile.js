@@ -13,15 +13,16 @@ import addNewImage from '../assets/addImage.png';
 
 
 export function Profile(props){
+  const switchActiveComponent = props.location ? props.location.change.activeComponent : null;
   const {username} = useParams();
-  const { state = {} } = useLocation();
-  const { activeComponent } = state;
+  const {grabLocation} = useLocation();
+  console.log(grabLocation);
 
   return <ProfileComponent 
   username={username} 
   activeUser={props.activeUser}
   logout={props.logout}
-  activeComponent={activeComponent}
+  activeComponent={switchActiveComponent}
   />
 
 }
@@ -43,7 +44,11 @@ export class ProfileComponent extends Component {
       editUsername:'',
       editFirstname:'',
       editLastname:'',
+      editPassword:'',
+      editRePassword:'',
       editDescription:'',
+      showErrors:'',
+      isEditError:false,
       newPreviewProfileImage:null,
       newProfileImage:null,
       userNameImg: "../assets/sample-profile-pic.jpg",
@@ -195,99 +200,122 @@ export class ProfileComponent extends Component {
 
   handleProfileUpdate(){
     if(this.state.newProfileImage){
-      const config = {
-        headers: {
-          'content-type': 'multipart/form-data'
-        }
-      };
-      var fd = new FormData();
-      fd.append('file',this.state.newProfileImage);
-      if(this.state.editEmail)fd.append('email',this.state.editEmail);
-      if(this.state.editUsername)fd.append('username',this.state.editUsername);
-      if(this.state.editFirstname)fd.append('firstname',this.state.editFirstname);
-      if(this.state.editLastname)fd.append('lastname',this.state.editLastname);
-      axios.post(`/users/updateWithImage/${this.state.profile._id}`, fd, config)
-      .then(res=>{
-        if(this.state.editUsername) {this.props.logout()}
-        else {
-          this.setState({
-            editEmail:'',
-            editUsername:'',
-            editFirstname:'',
-            editLastname:'',
-            editDescription:'',
-            addImage:'../assets/addImage.png',
-            newPreviewProfileImage:null,
-            newProfileImage:null,
-          }, ()=>{
-            fetch(`/users/profile/username/${this.props.username}`)
-            .then(result => result.json())
-            .then(
-              (result) => {
-                this.setState({
-                  isLoaded: true,
-                  profile: result
-                });
-                console.log("We have the profile: " + this.state.profile);          
-              },
-              // Note: it's important to handle errors here
-              // instead of a catch() block so that we don't swallow
-              // exceptions from actual bugs in components.
-              (error) => {
-                console.log("Error getting user profile: " + error);
-              }
-            );
-          })
-        }
-      })
-      .catch(err=>console.log("Error updating with image: " + err))
+      if(this.state.editPassword === this.state.editRePassword){
+        /* 
+        Add code to checkusername
+        */
+        const config = {
+          headers: {
+            'content-type': 'multipart/form-data'
+          }
+        };
+        var fd = new FormData();
+        fd.append('file',this.state.newProfileImage);
+        if(this.state.editEmail)fd.append('email',this.state.editEmail);
+        if(this.state.editUsername)fd.append('username',this.state.editUsername);
+        if(this.state.editFirstname)fd.append('firstname',this.state.editFirstname);
+        if(this.state.editLastname)fd.append('lastname',this.state.editLastname);
+        if(this.state.editPassword)fd.append('password',this.state.editPassword);
+        axios.post(`/users/updateWithImage/${this.state.profile._id}`, fd, config)
+        .then(res=>{
+          if(this.state.editUsername) {this.props.logout()}
+          else {
+            this.setState({
+              editEmail:'',
+              editUsername:'',
+              editFirstname:'',
+              editLastname:'',
+              editDescription:'',
+              editPassword:'',
+              editRePassword:'',
+              showErrors:false,
+              addImage:'../assets/addImage.png',
+              newPreviewProfileImage:null,
+              newProfileImage:null,
+            }, ()=>{
+              fetch(`/users/profile/username/${this.props.username}`)
+              .then(result => result.json())
+              .then(
+                (result) => {
+                  this.setState({
+                    isLoaded: true,
+                    profile: result
+                  });
+                  console.log("We have the profile: " + this.state.profile);          
+                },
+                // Note: it's important to handle errors here
+                // instead of a catch() block so that we don't swallow
+                // exceptions from actual bugs in components.
+                (error) => {
+                  console.log("Error getting user profile: " + error);
+                }
+              );
+            })
+          }
+        })
+        .catch(err=>console.log("Error updating with image: " + err))
+      }
+      else {
+        this.setState({isEditError:true, showErrors:'Password do not match'})
+      }
     } else {
-      var firstname = this.state.editFirstname ? this.state.editFirstname : null;
-      var lastname = this.state.editLastname ? this.state.editLastname : null;
-      var email = this.state.editEmail ? this.state.editEmail : null;
-      var description = this.state.editDescription ? this.state.editDescription : null;
-      var username = this.state.editUsername ? this.state.editUsername : null;
-      axios.post(`/users/updateNoImage/${this.state.profile._id}`,{
-        firstname,
-        lastname,
-        email,
-        description,
-        username
-      })
-      .then(res => {
-        if(this.state.editUsername) {this.props.logout()}
-        else {
-          this.setState({
-            editEmail:'',
-            editUsername:'',
-            editFirstname:'',
-            editLastname:'',
-            editDescription:'',
-            addImage:'../assets/addImage.png',
-            newPreviewProfileImage:null,
-            newProfileImage:null,
-          }, ()=>{
-            fetch(`/users/profile/username/${this.props.username}`)
-            .then(result => result.json())
-            .then(
-              (result) => {
-                this.setState({
-                  isLoaded: true,
-                  profile: result
-                });
-                console.log("We have the profile: " + this.state.profile);          
-              },
-              // Note: it's important to handle errors here
-              // instead of a catch() block so that we don't swallow
-              // exceptions from actual bugs in components.
-              (error) => {
-                console.log("Error getting user profile: " + error);
-              }
-            );
-          })
-        }
-      })
-      .catch(err=>console.log("Error updating without image: " + err));
+      if(this.state.editPassword === this.state.editRePassword){
+        var firstname = this.state.editFirstname ? this.state.editFirstname : null;
+        var lastname = this.state.editLastname ? this.state.editLastname : null;
+        var email = this.state.editEmail ? this.state.editEmail : null;
+        var description = this.state.editDescription ? this.state.editDescription : null;
+        var username = this.state.editUsername ? this.state.editUsername : null;
+        var password = this.state.editPassword ? this.state.editPassword : null;
+
+        axios.post(`/users/updateNoImage/${this.state.profile._id}`,{
+          firstname,
+          lastname,
+          email,
+          description,
+          username,
+          password,
+        })
+        .then(res => {
+          if(this.state.editUsername) {this.props.logout()}
+          else {
+            this.setState({
+              editEmail:'',
+              editUsername:'',
+              editFirstname:'',
+              editLastname:'',
+              editDescription:'',
+              editPassword:'',
+              editRePassword:'',
+              isEditError:false,
+              addImage:'../assets/addImage.png',
+              newPreviewProfileImage:null,
+              newProfileImage:null,
+            }, ()=>{
+              fetch(`/users/profile/username/${this.props.username}`)
+              .then(result => result.json())
+              .then(
+                (result) => {
+                  this.setState({
+                    isLoaded: true,
+                    profile: result
+                  });
+                  console.log("We have the profile: " + this.state.profile);          
+                },
+                // Note: it's important to handle errors here
+                // instead of a catch() block so that we don't swallow
+                // exceptions from actual bugs in components.
+                (error) => {
+                  console.log("Error getting user profile: " + error);
+                }
+              );
+            })
+          }
+        })
+        .catch(err=>console.log("Error updating without image: " + err));
+      }
+      else {
+        this.setState({isEditError:true, showErrors:'Password do not match'})
+      }
     }
   }
 
@@ -413,7 +441,11 @@ export class ProfileComponent extends Component {
         editUsername={this.state.editUsername}
         editFirstname={this.state.editFirstname}
         editLastname={this.state.editLastname}
+        editPassword={this.state.editPassword}
+        editRePassword={this.state.editRePassword}
         editDescription={this.state.editDescription}
+        showErrors={this.state.showErrors}
+        isEditError={this.state.isEditError}
         newProfileImage={newProfileImage}
         newPostType={this.state.newPostType}
         newPostImage={this.state.newPostImage}
@@ -453,7 +485,11 @@ export class ProfileComponent extends Component {
         editUsername={this.state.editUsername}
         editFirstname={this.state.editFirstname}
         editLastname={this.state.editLastname}
+        editPassword={this.state.editPassword}
+        editRePassword={this.state.editRePassword}
         editDescription={this.state.editDescription}
+        showErrors={this.state.showErrors}
+        isEditError={this.state.isEditError}
         newProfileImage={newProfileImage}
         newPostType={this.state.newPostType}
         newPostImage={this.state.newPostImage}

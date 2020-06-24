@@ -113,8 +113,8 @@ router.post('/register', upload.single('file'), async (req,res) =>{
 router.route('/getUsers').get((req,res) => {
 
   User.find()
-  .populate('followers')
-  .populate('followings')
+  .populate('followers.followers')
+  .populate('followings.followings')
   .then((user) => res.json(user))
   .catch(err => res.status(400).json("Error getting all users: " + err));
 });
@@ -123,8 +123,8 @@ router.route('/getUsers').get((req,res) => {
 router.route('/profile/username/:username').get((req,res) =>{
   
   User.findOne({username: req.params.username})
-  .populate('followers')
-  .populate('followings')
+  .populate('followers.followers')
+  .populate('followings.followings')
   .then((user) => res.json(user))
   .catch(err => res.status(400).json("Error: " + err));
   
@@ -194,8 +194,8 @@ router.get('/checkUsername/:username', async (req,res)=>{
 router.route('/profile/:id').get((req,res) =>{
   if(req.body.activeUserId === req.params.id){
     User.findById(req.params.id)
-    .populate('followers')
-    .populate('followings')
+    .populate('followers.followers')
+    .populate('followings.followings')
     .then((user) => res.json(user))
     .catch(err => res.status(400).json("Error: " + err));
   }
@@ -203,8 +203,8 @@ router.route('/profile/:id').get((req,res) =>{
     // If does not match hide email and password
     User.findById(req.params.id)
     .select('-email -passHash')
-    .populate('followers')
-    .populate('followings')
+    .populate('followers.followers')
+    .populate('followings.followings')
     .then((user) => res.json(user))
     .catch(err => res.status(400).json("Error: " + err));
   }
@@ -218,21 +218,14 @@ router.post('/updateWithImage/:id', upload.single('file'), (req,res) =>{
   User.findByIdAndUpdate(req.params.id)
   .then((user) =>{
 
-    if(req.body.username !== null)user.username = req.body.username;
-
-    //NEEDS TO BE FIXED TO WORK RIGHT
-    /*if(req.body.password){
-      const salt = bcrypt.genSalt(10);
-      const hashedPass = bcrypt.hash(req.body.password, salt);
-      user.passHash = hashedPass;
-    }*/
-
-    if(req.file.path !== null)user.image = req.file.path;
-    if(req.body.firstname !== null)user.firstname = req.body.firstname;
-    if(req.body.lastname !== null)user.lastname = req.body.lastname;
-    if(req.body.email !== null)user.email = req.body.email;
-    if(req.body.isVisible !== null)user.isVisible = req.body.isVisible;
-    if(req.body.description !== null)user.description = req.body.description;
+    if(req.body.username)user.username = req.body.username;
+    if(req.file.path)user.image = req.file.path;
+    if(req.body.password)user.passHash = bcrypt.hashSync(req.body.password,10);
+    if(req.body.firstname)user.firstname = req.body.firstname;
+    if(req.body.lastname)user.lastname = req.body.lastname;
+    if(req.body.email)user.email = req.body.email;
+    if(req.body.isVisible)user.isVisible = req.body.isVisible;
+    if(req.body.description)user.description = req.body.description;
     
     user.save()
     .then(user=>res.json(user))
@@ -250,14 +243,7 @@ router.post('/updateNoImage/:id', (req,res) =>{
   .then((user) =>{
 
     if(req.body.username)user.username = req.body.username;
-
-    //NEEDS TO BE FIXED TO WORK RIGHT
-    if(req.body.password){
-      const salt = bcrypt.genSalt(10);
-      const hashedPass = bcrypt.hash(req.body.password, salt);
-      user.passHash = hashedPass;
-    }
-
+    if(req.body.password)user.passHash = bcrypt.hashSync(req.body.password,10);
     if(req.body.firstname)user.firstname = req.body.firstname;
     if(req.body.lastname)user.lastname = req.body.lastname;
     if(req.body.email)user.email = req.body.email;

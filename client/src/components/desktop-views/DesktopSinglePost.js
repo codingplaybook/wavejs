@@ -120,7 +120,7 @@ export default function DesktopSinglePost(props){
   const likesBlock = props.post.likes.likes.map(like => {
     const likeImageUrl = like.userId.image ;
     const likeProfilePic = {
-      backgroundImage: (like.userId.image ? `url('/${likeImageUrl.replace(/\\/g, "/")}')` : `url(${like.userId.image})`),
+      backgroundImage: (like.userId.image ? `url('${likeImageUrl}')` : `url(${like.userId.image})`),
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       width: '30px',

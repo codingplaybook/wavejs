@@ -44,8 +44,7 @@ export default function MobilePost(props){
           </div>
           <Link className="postLink" to={`/post/${props.post.link}`}> 
             {props.post.type === "image" ? 
-              <div style={mobileFeedPostImgStyle}>
-              </div> 
+              <div style={mobileFeedPostImgStyle} />
             : <div className="mobile-postText border d-flex flex-wrap align-content-center justify-content-center">
                 <h5>{props.post.description}</h5> 
               </div>
@@ -54,7 +53,7 @@ export default function MobilePost(props){
           <div className="p-2 mobile-postResponseImg">
             <div className="w-100 row p-0 m-0 d-flex flex-wrap align-items-center justify-content-between">
               <span>
-                <img onClick={props.post.userLiked === true ? props.handleLike : props.handleDislike} src={Like} alt="Like-Icon" />
+                <img onClick={()=>{props.post.userLiked === true ? props.handleLike(props.post._id) : props.handleDislike(props.post._id)}} src={Like} alt="Like-Icon" />
                 <span><Link className="postLink" to={`/post/${props.post.link}`}>{props.post.likes ? props.post.likes.likes.length : 0}&nbsp;likes</Link></span>
               </span>
               <span>

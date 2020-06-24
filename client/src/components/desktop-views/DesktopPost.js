@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, UncontrolledPopover, PopoverHeader, PopoverBody } from 'reactstrap';
 
@@ -9,13 +9,18 @@ import Share from '../../assets/share.png';
 import SamplePic from '../../assets/sample-profile-pic.jpg';
 
 export default function DesktopPost(props){
+  
+  const getLike = props.post.likes[0];
+
+  const [didUserLike, setUserLike] = useState(true);
+  //const [didUserLike, setUserLike] = useState(props.post.likes.likes.some(x => x.userId === props.activeUser._id));
 
   const backgroundImageUrl = props.post.userId.image;
 
   const postImageUrl = props.post.image;
   
   const feedProfileImgStyle = {
-    backgroundImage: (props.post.userId.image ? `url('${backgroundImageUrl.replace(/\\/g, "/")}')` : `url(${SamplePic})`),
+    backgroundImage: (props.post.userId.image ? `url('${backgroundImageUrl}')` : `url('https://res.cloudinary.com/dzaepha4e/image/upload/v1592794284/sample-profile-pic_jxtcf8.jpg')`),
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     width: '60px',
@@ -24,7 +29,7 @@ export default function DesktopPost(props){
   }
 
   const feedPostImgStyle = {
-    backgroundImage:(props.post.image ? `url('${postImageUrl.replace(/\\/g, "/")}')` : `url(${SamplePic})`),
+    backgroundImage:(props.post.image ? `url('${postImageUrl}')` : `url('https://res.cloudinary.com/dzaepha4e/image/upload/v1592794284/sample-profile-pic_jxtcf8.jpg')`),
     borderRadius:'15px',
     backgroundSize:'cover',
     backgroundPosition:'center',
@@ -54,7 +59,7 @@ export default function DesktopPost(props){
             {
               props.post.image ? 
             <div className="w-100 h-100">
-              <Link to={`/post/${props.post.link}`}><div style={feedPostImgStyle} onDoubleClick={props.handleLike}/></Link> 
+              <Link to={`/post/${props.post.link}`}><div style={feedPostImgStyle} onDoubleClick={()=>{didUserLike === true ? props.handleLike(props.post._id) : props.handleDislike(props.post._id)}}/></Link> 
               {props.post.description}
             </div> :
             <Link className="postLink" to={`/post/${props.post.link}`}><h5>{props.post.description}</h5></Link>
@@ -65,15 +70,15 @@ export default function DesktopPost(props){
       <hr />
       <div className="col-4 desktop-postPostIcon d-flex justify-content-center">
         <div>
-          <img onClick={props.post.userLiked === true ? props.handleLike : props.handleDislike} src={Like} alt="Like-Icon" />
-          <span><Link className="postLink" to={`/post/${props.post.link}`}>{props.post.likes.length ? props.post.likes[0].length : 0}&nbsp;likes</Link></span>
+          <img onClick={()=>{didUserLike ? props.handleDislike(props.post._id) : props.handleLike(props.post._id)}} src={didUserLike ? Liked : Like} alt="Like-Icon" />
+          <span><Link className="postLink" to={`/post/${props.post.link}`}>{props.post.likes ? props.post.likes.likes.length : 0}&nbsp;likes</Link></span>
         </div>
       </div>
-      <div className="col-4 desktop-postPostIcon d-flex justify-content-center"  onClick={()=>console.log('display comments')}>
+      <div className="col-4 desktop-postPostIcon d-flex justify-content-center">
         <div>
           <Link className="postLink" to={`/post/${props.post.link}`}>
           <img src={Comment} alt="Comment-Icon" />
-          {props.post.comments.length ? props.post.comments[0].length : 0}&nbsp;comments
+          {props.post.comments ? props.post.comments.comments.length : 0}&nbsp;comments
           </Link>
         </div>
       </div>

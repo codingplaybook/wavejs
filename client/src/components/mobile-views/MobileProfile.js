@@ -34,7 +34,11 @@ export function MobileProfile(props){
             editUsername={props.editUsername}
             editFirstname={props.editFirstname}
             editLastname={props.editLastname}
-            editDescription={props.editDescription} 
+            editPassword={props.editPassword}
+            editRePassword={props.editRePassword}
+            editDescription={props.editDescription}
+            showErrors={props.showErrors}
+            isEditError={props.isEditError}  
             newProfileImgStyle={props.newProfileImgStyle}
             previewProfileImage={props.previewProfileImage}
             handleProfileChange={props.handleProfileChange}

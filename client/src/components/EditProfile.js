@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Alert, Col, Row, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 export default function EditProfile(props){
 
@@ -36,10 +36,24 @@ export default function EditProfile(props){
         </Col>
       </Row>
       <Row form>
+        <Col md={6}>
+          <FormGroup>
+            <Label for="password">New Password</Label>
+            <Input type="password" name="editPassword" id="editPassword" value={props.editPassword} onChange={props.handleProfileChange} />
+          </FormGroup>
+        </Col>
+        <Col md={6}>
+          <FormGroup>
+            <Label for="rePassword">Re-enter Password</Label>
+            <Input type="password" name="editRePassword" id="editRePassword" value={props.editRePassword} onChange={props.handleProfileChange} />
+          </FormGroup>
+        </Col>
+      </Row>
+      <Row form>
         <Col md={12}>
         <FormGroup>
           <Label for="description">Description</Label>
-          <Input type="textarea" name="editDescription" id="editDescreiption" value={props.editDescription} onChange={props.handleProfileChange} />
+          <Input type="textarea" name="editDescription" id="editDescription" value={props.editDescription} onChange={props.handleProfileChange} />
         </FormGroup>
         </Col>
         <Col md={6}>
@@ -53,6 +67,11 @@ export default function EditProfile(props){
             <Input type="file" name="newImage" id="newImage" onChange={props.previewProfileImage} />
           </FormGroup>
         </Col>
+        { props.isEditError ?
+          <Col md={12}>
+            <Alert color="danger">{props.showErrors}</Alert>
+          </Col>
+        : null }
         <Button color="info" onClick={props.handleProfileUpdate}>Submit</Button>                                       
       </Row>
     </Form>
