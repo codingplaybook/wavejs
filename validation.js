@@ -18,6 +18,8 @@ const registerValidation = (data) => {
         .min(3)
         .max(50)
         .required(),
+    image: Joi.string()
+        .required(),
     email: Joi.string()
         .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } } )
         .min(3)

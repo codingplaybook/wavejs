@@ -18,36 +18,6 @@ const User = require('../models/user.model');
 const router = require('express').Router();
 const mongoose = require('mongoose');
 
-// Form Data
-const multer = require('multer');
-
-const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, './uploads/');
-  },
-  filename: function(req, file, cb) {
-    cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
-  }
-});
-
-const fileFilter = (req, file, cb) => {
-  // reject a file
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
-};
-
-const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 1024 * 1024 * 5
-  },
-  fileFilter: fileFilter
-});
-
-
 // -> Create TEXT POST (X)
 router.post('/newTextPost', (req, res) =>{
 
@@ -92,44 +62,15 @@ router.post('/newTextPost', (req, res) =>{
 });
 
 // -> Create IMAGE POST (X)
-router.post('/newImagePost', upload.single('file'), (req, res) =>{
-
-  console.log(req.file);
-
-  const cloudinary = require('cloudinary').v2;
-  cloudinary.config({
-    cloud_name:'dzaepha4e',
-    api_key:'542644634829943',
-    api_secret:'OjOztN1B61w-KHbpwDcf-BGcHH8'
-  });
-
-  const path = req.file.path;
-  const uniqueFilename = new Date().toISOString();
-  
-  function getImage(){
-    return cloudinary.uploader.upload(
-      path,
-      { public_id: `blog/${uniqueFilename}`, tags: `blog` }, // directory and tags are optional
-      function(err, image) {
-        if (err) return res.send(err)
-        console.log('file uploaded to Cloudinary')
-        // remove file from server
-        const fs = require('fs')
-        fs.unlinkSync(path)
-        // return image details
-        res.json(image.secure_url);
-      }
-    );
-  }
+router.post('/newImagePost', (req, res) =>{
 
   const description = req.body.description ? req.body.description : '';
-  const type = 'image';
-  console.log('image is ' + image);
+  const type = req.body.type;
+  const image = req.body.type === 'image' ? req.body.image : null;
   const createdDate = Date.now();
   const userId = req.body.userId;
   const likes = { id: new mongoose.Types.ObjectId() };
   const comments = { id: new mongoose.Types.ObjectId() };
-
 
   //generate random link for post
   //need to find a way to index for future???
@@ -154,7 +95,7 @@ router.post('/newImagePost', upload.single('file'), (req, res) =>{
     userId,
     likes,
     comments
-  })
+  });
 
   //Save to MongoDB databse
   newPost.save()
@@ -261,6 +202,7 @@ router.route('/findUserPosts/:username').get((req,res)=>{
 
 // -> Update Image Post (!!!) | Per post.id
 // !!!NEED TO REINCLUDE IMAGE IF UPDATING!!!
+/*
 router.post('/editImagePost/:id', upload.single('file'), (req,res) =>{
 
   Post.findByIdAndUpdate(req.params.id)
@@ -277,6 +219,7 @@ router.post('/editImagePost/:id', upload.single('file'), (req,res) =>{
   .catch(err=>res.status(400).json('Error finding post to edit: ' + err));
 
 });
+*/
 
 // -> Update Text Post (X) | Per post.id
 router.post('/editTextPost/:id', (req,res) =>{

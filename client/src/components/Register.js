@@ -89,7 +89,7 @@ export class Register extends Component{
        }
      );
     }
-   }
+  }
  
    checkUsername(){
      /* 
@@ -129,7 +129,7 @@ export class Register extends Component{
          }
        );
      }
-   }
+    }
  
    checkPasswords(){
      /*
@@ -221,26 +221,33 @@ export class Register extends Component{
 
    handleSubmit(){
     if(this.state.username && this.state.email && this.state.firstname && this.state.lastname && this.state.password && this.state.image){
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        };
-        var fd = new FormData();
-        fd.append('file',this.state.image);
-        fd.append('username',this.state.username);
-        fd.append('email',this.state.email);
-        fd.append('firstname',this.state.firstname);
-        fd.append('lastname',this.state.lastname);
-        fd.append('password',this.state.password);
-        fd.append('isVisible',true);
-        fd.append('description',this.state.description);
-      axios.post('/users/register', fd, config)
-      .then(res => {
-        this.props.registerSuccessful(res.data);
-        this.setState({isRegisterSuccessful:true})
+      const config = {
+        headers: {
+            'content-type': 'multipart/form-data'
+        }
+      };
+      var fd = new FormData();
+      fd.append('upload_preset','sryediiz');
+      fd.append('file',this.state.image);
+      axios.post('https://api.cloudinary.com/v1_1/dzaepha4e/image/upload',fd)
+      .then(res=>{
+        axios.post('/users/newRegister',{
+          username:this.state.username,
+          email:this.state.email,
+          firstname:this.state.firstname,
+          lastname:this.state.lastname,
+          password:this.state.password,
+          isVisible:true,
+          description:(this.state.description ? this.state.description : ''),
+          image:res.data.secure_url
+        },()=>console.log(res))
+        .then(res=>{
+          this.props.registerSuccessful(res.data);
+          this.setState({isRegisterSuccessful:true});
+        })
+        .catch(err=>console.log('Error registering user: ' + err));
       })
-      .catch(err => 'Error registering user: ' + err);
+      .catch(err=>console.log('Error uploading new user image to cloudinary: ' + err));
       } else {
         console.log('error adding user' + this.state);
       }
@@ -249,6 +256,36 @@ export class Register extends Component{
   Not registered -> Render register component, and pass down grabRegistration()
   If registered -> Flip state and redirect with values
   */
+
+
+  /*
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
+        var fd = new FormData();
+        fd.append('upload_preset','sryediiz');
+        fd.append('file',this.state.image);
+        axios.post('https://api.cloudinary.com/v1_1/dzaepha4e/image/upload',fd)
+        .then(res=>{
+          axios.post('/users/register',{
+            username:this.state.username,
+            email:this.state.email,
+            firstname:this.state.firstname,
+            lastname:this.state.lastname,
+            password:this.state.password,
+            isVisible:true,
+            description:this.state.description
+          })
+          .then(res=>{
+            this.props.registerSuccessful(res.data);
+            this.setState({isRegisterSuccessful:true});
+          })
+        })
+        .catch(err=>'Error uploading new user image to cloudinary: ' + err);
+  */
+
   render() {
     return (
       this.state.isRegistered === false ? 

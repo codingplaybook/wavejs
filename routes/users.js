@@ -56,7 +56,7 @@ const upload = multer({
 
 
 // -> Create User (X)
-router.post('/register', upload.single('file'), async (req,res) =>{
+/*router.post('/register', upload.single('file'), async (req,res) =>{
 
   console.log(req.file);
   //VALIDATE THE DATA BEFORE ADDING USER
@@ -83,6 +83,61 @@ router.post('/register', upload.single('file'), async (req,res) =>{
   const followings = { id: new mongoose.Types.ObjectId() };
   const image = req.file.path;
   
+
+  const newUser = new User({
+    firstname,
+    lastname,
+    email,
+    username,
+    description,
+    image,
+    passHash,
+    isVisible,
+    followers,
+    followings
+  });
+
+  newUser.save()
+  .then(newUser => {
+    res.json(newUser);
+    console.log("Submitted user success: " + newUser)
+  })
+  .catch(err => {
+    res.status(400).json("Error registering: " + err);
+    console.log("Error registering: " + err);
+  });
+
+});
+*/
+
+// -> Create User (X)
+router.post('/newRegister', async (req,res) =>{
+
+  //VALIDATE THE DATA BEFORE ADDING USER
+  const { error } = await registerValidation(req.body);
+  if(error) {
+    console.log(error.details[0].message);
+    return res.status(400).send(error.details[0].message);
+  }
+  
+  //CHECK IF DUPLICATE EMAIL
+  User.findOne({username:req.body.username})
+  .then(username=>{if(username)res.status(400).send('User exists')})
+
+  //STORE REQUIRED VALUES
+  const username = req.body.username;
+  const salt = await bcrypt.genSalt(10);
+  const passHash = await bcrypt.hash(req.body.password, salt);
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
+  const email = req.body.email;
+  const isVisible = req.body.isVisible;
+
+  //OPTIONAL VALUES
+  const description = req.body.description ? req.body.description : "";
+  const followers = { id: new mongoose.Types.ObjectId() };
+  const followings = { id: new mongoose.Types.ObjectId() };
+  const image = req.body.image;
 
   const newUser = new User({
     firstname,
@@ -190,6 +245,22 @@ router.get('/checkUsername/:username', async (req,res)=>{
   .catch(err => res.status(400).json("Error checking for username: " + err));
 });
 
+// -> Validate user (X) | One User by user.username
+router.get('/changeUsername/:username', async (req,res)=>{
+  User.findOne({username:req.params.username})
+  .then(users =>{
+    if(users){res.send({
+      isEditError: true,
+      showErrors:'Username already registered'
+    })}
+    else{res.send({
+      isEditError:false,
+      showErrors:null
+    })}
+  })
+  .catch(err => res.status(400).json("Error checking for username: " + err));
+});
+
 // -> Validate user (X) | Check if logged in user equals this user or not
 router.route('/profile/:id').get((req,res) =>{
   if(req.body.activeUserId === req.params.id){
@@ -211,15 +282,13 @@ router.route('/profile/:id').get((req,res) =>{
 });
 
 // -> Update User including their Image
-router.post('/updateWithImage/:id', upload.single('file'), (req,res) =>{
-
-  console.log(req.file);
+router.post('/updateWithImage/:id', (req,res) =>{
 
   User.findByIdAndUpdate(req.params.id)
   .then((user) =>{
 
     if(req.body.username)user.username = req.body.username;
-    if(req.file.path)user.image = req.file.path;
+    if(req.file.path)user.image = req.body.image;
     if(req.body.password)user.passHash = bcrypt.hashSync(req.body.password,10);
     if(req.body.firstname)user.firstname = req.body.firstname;
     if(req.body.lastname)user.lastname = req.body.lastname;
@@ -229,10 +298,10 @@ router.post('/updateWithImage/:id', upload.single('file'), (req,res) =>{
     
     user.save()
     .then(user=>res.json(user))
-    .catch(err=>res.status(400).json('Error: ' + err));
+    .catch(err=>res.status(400).json('Error updating with updateWithImage: ' + err));
 
   })
-  .catch(err=>res.status(400).json('Error: ' + err));
+  .catch(err=>res.status(400).json('Error finding user: ' + err));
   
 });
 

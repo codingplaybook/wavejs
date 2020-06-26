@@ -71,6 +71,8 @@ export class ProfileComponent extends Component {
     this.handleAllPosts = this.handleAllPosts.bind(this);
     this.handlePhotoPosts = this.handlePhotoPosts.bind(this);
     this.handleTextPosts = this.handleTextPosts.bind(this);
+    this.continueProfileUpdate = this.continueProfileUpdate.bind(this);
+    this.checkUsername = this.checkUsername.bind(this);
   }
 
   componentDidMount(){
@@ -95,6 +97,32 @@ export class ProfileComponent extends Component {
         console.log("Error getting user profile: " + error);
       }
     )
+  }
+
+  static getDerivedStateFromProps(nextProps){
+    if(nextProps.username !== this.props.username) {
+      fetch(`/users/profile/username/${this.props.username}`)
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            profile: result
+          },()=>{
+            this.setState({
+              isFollowing: this.state.profile.followers.followers.some(x => x.username === this.props.activeUser.username)
+            })
+            console.log(this.props.activeUser);
+          });          
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          console.log("Error getting user profile: " + error);
+        }
+      )
+    }
   }
 
   /*
@@ -198,7 +226,7 @@ export class ProfileComponent extends Component {
     .catch(err => console.log("Error unfollowing user: " + err))
   }
 
-  handleProfileUpdate(){
+  continueProfileUpdate(){
     if(this.state.newProfileImage){
       if(this.state.editPassword === this.state.editRePassword){
         /* 
@@ -211,49 +239,57 @@ export class ProfileComponent extends Component {
         };
         var fd = new FormData();
         fd.append('file',this.state.newProfileImage);
-        if(this.state.editEmail)fd.append('email',this.state.editEmail);
-        if(this.state.editUsername)fd.append('username',this.state.editUsername);
-        if(this.state.editFirstname)fd.append('firstname',this.state.editFirstname);
-        if(this.state.editLastname)fd.append('lastname',this.state.editLastname);
-        if(this.state.editPassword)fd.append('password',this.state.editPassword);
-        axios.post(`/users/updateWithImage/${this.state.profile._id}`, fd, config)
+        fd.append('upload_preset','sryediiz');
+        axios.post('https://api.cloudinary.com/v1_1/dzaepha4e/image/upload',fd)
         .then(res=>{
-          if(this.state.editUsername) {this.props.logout()}
-          else {
-            this.setState({
-              editEmail:'',
-              editUsername:'',
-              editFirstname:'',
-              editLastname:'',
-              editDescription:'',
-              editPassword:'',
-              editRePassword:'',
-              showErrors:false,
-              addImage:'../assets/addImage.png',
-              newPreviewProfileImage:null,
-              newProfileImage:null,
-            }, ()=>{
-              fetch(`/users/profile/username/${this.props.username}`)
-              .then(result => result.json())
-              .then(
-                (result) => {
-                  this.setState({
-                    isLoaded: true,
-                    profile: result
-                  });
-                  console.log("We have the profile: " + this.state.profile);          
-                },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
-                (error) => {
-                  console.log("Error getting user profile: " + error);
-                }
-              );
-            })
-          }
+          axios.post(`/users/updateWithImage/${this.state.profile._id}`,{
+            username:(this.state.editUsername ? this.state.editUsername : null),
+            email:(this.state.editEmail ? this.state.editEmail : null),
+            username:(this.state.editUsername ? this.state.editUsername : null),
+            firstname:(this.state.editFirstname ? this.state.editFirstname : null),
+            lastname:(this.state.editLastname ? this.state.editLastname : null),
+            password:(this.state.editPassword ? this.state.editPassword : null),
+            image:res.data.secure_url
+          })
+          .then(res=>{
+            if(this.state.editUsername) {this.props.logout()}
+            else {
+              this.setState({
+                editEmail:'',
+                editUsername:'',
+                editFirstname:'',
+                editLastname:'',
+                editDescription:'',
+                editPassword:'',
+                editRePassword:'',
+                showErrors:false,
+                addImage:'../assets/addImage.png',
+                newPreviewProfileImage:null,
+                newProfileImage:null,
+              }, ()=>{
+                fetch(`/users/profile/username/${this.props.username}`)
+                .then(result => result.json())
+                .then(
+                  (result) => {
+                    this.setState({
+                      isLoaded: true,
+                      profile: result
+                    });
+                    console.log("We have the profile: " + this.state.profile);          
+                  },
+                  // Note: it's important to handle errors here
+                  // instead of a catch() block so that we don't swallow
+                  // exceptions from actual bugs in components.
+                  (error) => {
+                    console.log("Error getting user profile: " + error);
+                  }
+                );
+              })
+            }
+          })
+          .catch(err=>console.log('Error updating user: ' + err));
         })
-        .catch(err=>console.log("Error updating with image: " + err))
+        .catch(err=>console.log('Error uploading edit user image to cloudinary: ' + err));
       }
       else {
         this.setState({isEditError:true, showErrors:'Password do not match'})
@@ -319,6 +355,45 @@ export class ProfileComponent extends Component {
     }
   }
 
+  checkUsername(){
+    var usernameFormat =  /^[0-9A-Za-z_-]+[0-9A-Za-z_-]*$/g;
+
+    if(this.state.editUsername.match(usernameFormat) && this.state.editUsername.length >= 8 && this.state.editUsername.length <= 16){
+      //check if editUsername already exists
+      axios.get(`/users/changeUsername/${this.state.editUsername}`)
+      .then(res=>{
+        this.setState({
+          isEditError:res.data.isEditError,
+          showErrors:res.data.showErrors 
+        }, ()=> {
+          if(!this.state.isEditError){this.continueProfileUpdate()}
+          }
+        );
+        //Console log result after setState
+        console.log(res);
+        console.log(this.state.isEditError + ' ' + this.state.showErrors);
+      })
+      .catch(err=>('Error: ' + err));
+      } 
+      else {
+      //Return error as 'invalid editUsername format'
+      this.setState({
+        isEditError:true,
+        showErrors:'Invalid Username format'
+      }, ()=>{
+        //Console log result after setState
+        console.log("Username valid?: " + this.state.isEditError);
+        console.log("Username valid message: " + this.state.showErrors);
+        }
+      );
+    }
+  }
+
+  handleProfileUpdate(){
+    if(this.state.editUsername){this.checkUsername()}
+    else{this.continueProfileUpdate()}
+  }
+
   handleNewPostChange(e){
     this.setState({
       [e.target.name] : e.target.value
@@ -334,17 +409,26 @@ export class ProfileComponent extends Component {
       };
       var fd = new FormData();
       fd.append('file',this.state.newPostImage);
-      fd.append('description',this.state.newPostDescription ? this.state.newPostDescription : '');
-      fd.append('userId',this.props.activeUser._id);
-      axios.post('/posts/newImagePost', fd, config)
-      .then(res => {
-        this.setState({
-          newPostLink:res.data.link
-        },()=>{
-          this.setState({isNewPostSubmitted:true});
-          console.log(res.data)
-        });
-      }); 
+      fd.append('upload_preset','sryediiz');
+      axios.post('https://api.cloudinary.com/v1_1/dzaepha4e/image/upload',fd)
+      .then(res=>{
+        axios.post('/posts/newImagePost',{
+          description:(this.state.newPostDescription ? this.state.newPostDescription : ''),
+          type:'image',
+          image:res.data.secure_url,
+          userId:this.props.activeUser._id,
+        },()=>console.log(res))
+        .then(res => {
+          this.setState({
+            newPostLink:res.data.link
+          },()=>{
+            this.setState({isNewPostSubmitted:true});
+            console.log(res.data)
+          });
+        })
+        .catch(err=>console.log('Error uploading new post: ' + err)); 
+      })
+      .catch(err=>console.log('Error uploading to cloudinary: ' + err)); 
     } else {
     axios.post(`/posts/newTextPost`,{
       userId:this.props.activeUser._id,
