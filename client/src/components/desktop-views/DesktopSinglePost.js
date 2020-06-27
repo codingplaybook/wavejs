@@ -72,6 +72,7 @@ export default function DesktopSinglePost(props){
             </Link>
           </div>
           <div className="col-7 font-weight-normal">
+          <b><Link className="postLink" to={`/profile/${comment.userId.username}`}>{comment.userId.username}</Link></b><br />
             <span>{comment.description}</span><br />
           </div>
           <div className="col-3 desktop-postDateTime">

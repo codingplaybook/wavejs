@@ -2,12 +2,13 @@ import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './custom.css';
+import history from './history'
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
-  <BrowserRouter>
+  <BrowserRouter history={history}>
     <App />
   </BrowserRouter>, 
   document.getElementById('root')

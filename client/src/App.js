@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Route, Redirect, withRouter } from 'react-router';
 import PropTypes from "prop-types";
 import { useLocation } from 'react-router-dom';
-
+import history from './history';
 import { Layout } from './components/Layout';
 
 import { Landing } from './components/Landing';
@@ -36,16 +36,18 @@ class App extends Component {
     this.registerSuccessful = this.registerSuccessful.bind(this);
   }
 
-  /*componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.location !== this.props.location) {
       // navigated!
       localStorage.setItem('myDoor', this.props.location.pathname);
+      console.log(localStorage.getItem('myDoor', this.props.location.pathname));
     }
   }
 
   componentDidMount(){
     console.log('user auth? ' + localStorage.getItem('isAuthenticated'));
     const thisUser = JSON.parse(localStorage.getItem('user'));
+    const thisDoor = localStorage.getItem('myDoor');
     if(localStorage.getItem('isAuthenticated') === 'true' && localStorage.getItem('user')) {
       this.setState({ 
         user:thisUser
@@ -66,7 +68,7 @@ class App extends Component {
 
   componentWillUnmount() {
       this.unlisten();
-  }*/
+  }
 
   handleLoginChange(e){
     this.setState({
@@ -160,7 +162,8 @@ class App extends Component {
         </Route>
         <Route exact path='/login'>
         {this.state.isAuthenticated ? 
-          <Redirect to={`/profile/${this.state.user.username}`} /> :
+          <Redirect to={`/profile/${this.state.user.username}`} /> 
+          :
           <Login 
             username={this.state.username}
             password={this.state.password}

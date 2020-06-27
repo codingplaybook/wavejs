@@ -59,7 +59,7 @@ export default function DesktopPost(props){
             {
               props.post.image ? 
             <div className="w-100 h-100">
-              <Link to={`/post/${props.post.link}`}><div style={feedPostImgStyle} onDoubleClick={()=>{didUserLike === true ? props.handleLike(props.post._id) : props.handleDislike(props.post._id)}}/></Link> 
+              <Link to={`/post/${props.post.link}`}><div style={feedPostImgStyle}/></Link> 
               {props.post.description}
             </div> :
             <Link className="postLink" to={`/post/${props.post.link}`}><h5>{props.post.description}</h5></Link>
@@ -70,14 +70,12 @@ export default function DesktopPost(props){
       <hr />
       <div className="col-4 desktop-postPostIcon d-flex justify-content-center">
         <div>
-          <img onClick={()=>{didUserLike ? props.handleDislike(props.post._id) : props.handleLike(props.post._id)}} src={didUserLike ? Liked : Like} alt="Like-Icon" />
           <span><Link className="postLink" to={`/post/${props.post.link}`}>{props.post.likes ? props.post.likes.likes.length : 0}&nbsp;likes</Link></span>
         </div>
       </div>
       <div className="col-4 desktop-postPostIcon d-flex justify-content-center">
         <div>
           <Link className="postLink" to={`/post/${props.post.link}`}>
-          <img src={Comment} alt="Comment-Icon" />
           {props.post.comments ? props.post.comments.comments.length : 0}&nbsp;comments
           </Link>
         </div>

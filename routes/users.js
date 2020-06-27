@@ -288,7 +288,7 @@ router.post('/updateWithImage/:id', (req,res) =>{
   .then((user) =>{
 
     if(req.body.username)user.username = req.body.username;
-    if(req.file.path)user.image = req.body.image;
+    if(req.body.image)user.image = req.body.image;
     if(req.body.password)user.passHash = bcrypt.hashSync(req.body.password,10);
     if(req.body.firstname)user.firstname = req.body.firstname;
     if(req.body.lastname)user.lastname = req.body.lastname;
@@ -298,10 +298,16 @@ router.post('/updateWithImage/:id', (req,res) =>{
     
     user.save()
     .then(user=>res.json(user))
-    .catch(err=>res.status(400).json('Error updating with updateWithImage: ' + err));
+    .catch(err=>{
+      res.status(400).json('Error updating with updateWithImage: ' + err);
+      console.log('Error updating with updateWithImage: ' + err);
+    });
 
   })
-  .catch(err=>res.status(400).json('Error finding user: ' + err));
+  .catch(err=>{
+    res.status(400).json('Error finding user: ' + err);
+    console.log('Error finding user: ' + err);
+  });
   
 });
 

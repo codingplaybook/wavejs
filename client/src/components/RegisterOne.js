@@ -12,7 +12,7 @@ export function RegisterOne(props){
           <h4>Register a new profile.</h4>
           <p><b>Fill out all boxes</b> to start a new profile entry. After submitting the entries the next page will take you to completing your profile.</p>
           <p><b>Additional profile features</b> personal profile image, description, your personal posts and always the ability to edit this information later.</p>
-          <p><b>Personal profiles and posts are deleted every 3 days.</b> This is only a test site after all.</p>
+          <p><b>Personal profiles and posts are deleted every 24 hours.</b> This is only a test site after all.</p>
           </div>
         </div>
         <div className="h-100 col-12 col-md-6 d-flex flex-wrap">

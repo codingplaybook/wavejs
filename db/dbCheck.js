@@ -562,7 +562,7 @@ exports.checkDate = function () {
   SavedDate.findOneAndUpdate()
   .then(date => {
     const currentDate = Date.now();
-    const dateGap = 1.728*(10**8);
+    const dateGap = 8.64*(10**7);
     const dateDiff = currentDate - date.savedDate; 
     if(dateDiff > dateGap) {
       date.savedDate = Date.now();

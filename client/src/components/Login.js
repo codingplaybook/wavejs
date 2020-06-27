@@ -13,7 +13,7 @@ export function Login(props){
             <div className="col-md-9 mx-auto">
             <h4>Login to your profile</h4>
             <p><b>If you haven't created a profile already</b> click the link below the form to register a new one.</p>
-            <p><b>Personal profiles and posts are deleted every 3 days.</b> This is only a test site after all.</p>
+            <p><b>Personal profiles and posts are deleted every 24 hours.</b> This is only a test site after all.</p>
             </div>
           </div>
           <div className="h-100 col-12 col-md-6 d-flex flex-wrap">

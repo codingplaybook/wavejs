@@ -274,7 +274,7 @@ router.route('/addLike/:id').post((req,res) =>{
     res.status(400).json('Error finding like: ' + err); console.log("Error finding like: " + err)})
 });
 
-// Remove Like from Post ( ) | Per post.id
+// Remove Like from Post (X) | Per post.id
 router.route('/removeLike/:id').post((req,res) =>{
 
   Post.findByIdAndUpdate(req.params.id)
@@ -288,30 +288,6 @@ router.route('/removeLike/:id').post((req,res) =>{
 
   })
   .catch(err=>res.status(400).json('Error finding post to update: ' + err));
-
-});
-
-// New Remove like ( ) | 
-router.route('/newRemoveLike/:id').post((req,res)=>{
-
-  Post.findById(req.params.id)
-  .where({'likes.likes.userId':req.body.userId})
-  .then(post =>{
-    if(post){
-      var likeId = mongoose.Types.ObjectId(req.body.userLikeId);
-      Post.findByIdAndUpdate(req.params.id)
-      .then(post => {
-        let likePosition = post.likes.likes.indexOf({_id:likeId});
-        console.log(post.likes.likes);
-      })
-      .catch(err => 'Error removing like: ' + err);
-    }
-    else {
-      res.json(req.body.userId + ' has not liked this post ' + req.params.id);
-    }
-  })
-  .catch(err => {
-    res.status(400).json('Error finding like: ' + err); console.log("Error finding like: " + err)});
 
 });
 
@@ -344,10 +320,10 @@ router.route('/removeComment/:id').post((req,res) =>{
   Post.findByIdAndUpdate(req.params.id)
   .then(post=>{
   //Find the comment based on the comment id
-    let commentPosition = (post.comments.comments).indexOf({_id:req.body.commentId});
+    let commentPosition = post.comments.comments.indexOf({_id:req.body.commentId});
 
   //Check to make sure activeUserId = commentUserId  
-    if(post.comments.comments[commentPosition].userId === req.body.activeUserId){
+    if(post.comments.comments[commentPosition].userId === req.body.userId){
       //Use indexof splice stuff to remove the comment from array 
       post.comments.comments.splice(commentPosition,1);
       post.save()
@@ -362,6 +338,17 @@ router.route('/removeComment/:id').post((req,res) =>{
 
 });
 
-//
+router.route('/newRemoveComment/:id').post((req,res) =>{
+
+  Post.findByIdAndUpdate(req.params.id)
+  .then(post=>{
+    let commentPosition = post.comments.comments.indexOf({
+      userId:req.body.userId
+    });
+    console.log(post + ' ' + commentPosition);
+  })
+  .catch(err=>res.status(400).json('Error removing comment: ' + err));
+
+});
 
 module.exports = router;

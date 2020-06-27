@@ -99,15 +99,17 @@ export class ProfileComponent extends Component {
     )
   }
 
-  static getDerivedStateFromProps(nextProps){
-    if(nextProps.username !== this.props.username) {
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.username !== prevProps.username) {
       fetch(`/users/profile/username/${this.props.username}`)
       .then(res => res.json())
       .then(
         (result) => {
           this.setState({
             isLoaded: true,
-            profile: result
+            profile: result,
+            activeComponent:'all'
           },()=>{
             this.setState({
               isFollowing: this.state.profile.followers.followers.some(x => x.username === this.props.activeUser.username)
