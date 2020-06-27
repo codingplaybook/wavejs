@@ -93,7 +93,7 @@ export function MobileProfile(props){
 
       {props.isLoaded ? 
       <div className="h-100 mobile-profileContainer">
-        <div className="px-3 my-3 mobile-profileHeader">
+        <div className="px-3 mt-1 mobile-profileHeader">
           <div className="row d-flex justify-content-between mobile-profileInformation">
             <div className="w-50 pl-3">
               <div style={props.mobileProfileCircle} />

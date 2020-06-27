@@ -552,6 +552,26 @@ function clearDb() {
   .then(()=>{
     Post.deleteMany({})
     .then(posts=>console.log('Here are the posts: ' + posts))
+    /*.then(()=>{
+
+      const cloudinary = require('cloudinary').v2
+      cloudinary.config({
+        cloud_name: 'dzaepha4e',
+        api_key: '542644634829943',
+        api_secret: 'OjOztN1B61w-KHbpwDcf-BGcHH8'
+      });
+      cloudinary.v2.api.delete_resources(all, 
+          function(err, res) {
+          if (err) return res.send(err)
+          console.log('file uploaded to Cloudinary')
+          // remove file from server
+          const fs = require('fs')
+          fs.unlinkSync(path)
+          // return image details
+          console.log(res.json(res));
+        }
+      );
+    })*/
     .then(()=>pushUsers())
     .catch(()=>console.log('Error removing posts: ' + users));
   })

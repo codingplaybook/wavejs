@@ -323,7 +323,7 @@ code {
 }
 
 .mobile-profileHeader {
-  max-height: 50%;
+  min-height: 50%;
 }
 
 .mobile-profileInformation {
