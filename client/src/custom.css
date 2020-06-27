@@ -320,6 +320,7 @@ code {
   overflow-y: scroll;
   min-height: 40% !important;
   max-height: 55% !important;
+  padding-bottom: 4rem;
 }
 
 .mobile-profileHeader {
