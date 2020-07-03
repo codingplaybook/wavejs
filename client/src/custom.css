@@ -392,6 +392,10 @@ code {
   padding-bottom: 5rem !important;
 }
 
+.register-submitButtons button {
+  max-height: 45px;
+}
+
 /* Single Post: Desktop */
 .description-singlePostText {
   width: 100%;

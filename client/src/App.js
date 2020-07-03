@@ -45,6 +45,11 @@ class App extends Component {
   }
 
   componentDidMount(){
+    if(!this.state.user || !this.state.username){
+      if(this.state.isAuthenticated){
+        this.logout();
+      }
+    }
     console.log('user auth? ' + localStorage.getItem('isAuthenticated'));
     const thisUser = JSON.parse(localStorage.getItem('user'));
     const thisDoor = localStorage.getItem('myDoor');
